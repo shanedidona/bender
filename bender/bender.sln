@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "benderEXE", "benderEXE\benderEXE.csproj", "{E76D8CE6-1C39-4B58-9738-7A471FD96F88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E76D8CE6-1C39-4B58-9738-7A471FD96F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E76D8CE6-1C39-4B58-9738-7A471FD96F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E76D8CE6-1C39-4B58-9738-7A471FD96F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E76D8CE6-1C39-4B58-9738-7A471FD96F88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF9A5495-49E7-4201-AABB-D0A1627BEEF8}
+	EndGlobalSection
+EndGlobal
