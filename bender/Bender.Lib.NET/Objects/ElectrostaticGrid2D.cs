@@ -4,6 +4,8 @@
     {
         public readonly double XMin;
         public readonly double YMin;
+        public readonly int NX;
+        public readonly int NY;
         public double PixelSize;
         public double[,] V;//[xi,yi]
         public ushort[,] ID;//[xi,yi]
@@ -16,6 +18,8 @@
 
             XMin = xMin;
             YMin = yMin;
+            NX = nx;
+            NY = ny;
             PixelSize = pixelSize;
             V = new double[nx, ny];
             ID = new ushort[nx, ny];
