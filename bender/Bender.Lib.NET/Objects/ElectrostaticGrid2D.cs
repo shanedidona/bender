@@ -5,8 +5,8 @@
         public readonly double XMin;
         public readonly double YMin;
         public double PixelSize;
-        public double[,] V;
-        public ushort[,] ID;
+        public double[,] V;//[xi,yi]
+        public ushort[,] ID;//[xi,yi]
 
         public ElectrostaticGrid2D(double xMin, double yMin, int nx, int ny, double pixelSize)
         {
