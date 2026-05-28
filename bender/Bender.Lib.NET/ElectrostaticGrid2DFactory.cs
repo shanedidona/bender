@@ -2,13 +2,8 @@
 {
     public static class ElectrostaticGrid2DFactory
     {
-        public static ElectrostaticGrid2D Gen1(double xMin, double yMin, int nx, int ny, double pixelSize, (ushort ID, Region2D ElectrodeRegion2D)[] idsAndRegions)//First Gets Priority; id can be duplicated and there can be gaps in id.  ID cannot be 0.
+        public static ElectrostaticGrid2D Gen1(double xMin, double yMin, int nx, int ny, double pixelSize, (double V, Region2D ElectrodeRegion2D)[] voltagesAndRegions, double epsilonOverPixelSize = 0.001)//First Gets Priority
         {
-            if (idsAndRegions.Select(x => x.ID).Contains((ushort)0))
-            {
-                throw new NotSupportedException("No Electrode can have ID==0; that is reserved for vacuum.");
-            }
-
             var out1 = new ElectrostaticGrid2D(xMin, yMin, nx, ny, pixelSize);
 
             var xs = new double[nx];
@@ -23,32 +18,23 @@
                 ys[i] = yMin + i * pixelSize;
             }
 
+            double epsilon = pixelSize * epsilonOverPixelSize;
+
             for (int i = 0; i < nx; i++)
             {
                 for (int j = 0; j < ny; j++)
                 {
-                    foreach ((ushort id, Region2D electrodeRegion2D) in idsAndRegions)
+                    foreach ((double v, Region2D electrodeRegion2D) in voltagesAndRegions)
                     {
-                        if ()
+                        if (electrodeRegion2D.IsIn(xs[i], ys[j], epsilon))
                         {
-
+                            out1.V[i, j] = v;
+                            out1.ID[i, j] = 1;
+                            break;
                         }
-
-
-
                     }
                 }
             }
-
-
-
-
-
-
-
-
-
-
 
             return out1;
         }
