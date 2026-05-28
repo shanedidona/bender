@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Bender.Lib.NET;
+using Serilog;
 
 namespace benderEXE
 {
@@ -15,6 +16,19 @@ namespace benderEXE
                 .CreateLogger();
 
             Log.Information("Logger made");
+
+            double xMin = 0;
+            double yMin = 0;
+            int nx = 1000;
+            int ny = 1000;
+            double pixelSize = 0.001;
+
+            var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
+            voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
+
+            var wooo = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+
+
 
 
 
