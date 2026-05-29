@@ -25,19 +25,15 @@ namespace benderEXE
 
             var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
             voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
+            voltagesAndRegions.Add((1, new Circle(0.1, 0.4, 0.02)));
+            voltagesAndRegions.Add((-0.5, new Rectangle(0.5, 0.5, 0.6, 0.7)));
 
-            var wooo = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+            ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
 
+            string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
+            Directory.CreateDirectory(resultsFolder);
 
-
-
-
-
-
-
-
-
-
+            BenderMath.RenderMat(electrostaticGrid2D).SaveImage(Path.Combine(resultsFolder, "1.png"));
         }
     }
 }
