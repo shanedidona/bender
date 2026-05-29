@@ -6,6 +6,11 @@
 
         public Or2D(Region2D[] regions)
         {
+            if (regions.Length == 0)
+            {
+                throw new NotSupportedException("!regions.Any() is not supported for now.");
+            }
+
             _regions = regions;
         }
 
