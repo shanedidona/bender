@@ -19,6 +19,8 @@
 
         public override bool IsIn(double x, double y, double epsilon)
         {
+            if (!_looseBoundingRectangle.IsIn(x,y,epsilon)) { return false; }
+
             return _a.IsIn(x, y, epsilon) && (!_b.IsIn(x, y, epsilon));
         }
     }
