@@ -8,7 +8,7 @@ namespace Bender.Lib.NET
         public readonly double YC;
         public readonly double R;
 
-        readonly Rectangle BoundingRectangle;
+        readonly Rectangle _looseBoundingRectangle;
 
         public Circle(double xC, double yC, double r)
         {
@@ -16,12 +16,14 @@ namespace Bender.Lib.NET
             YC = yC;
             R = r;
 
-            BoundingRectangle = new Rectangle(XC - R, YC - R, XC + R, YC + R);
+            _looseBoundingRectangle = new Rectangle(XC - R, YC - R, XC + R, YC + R);
         }
+
+        public override Rectangle LooseBoundingRectangle => _looseBoundingRectangle;
 
         public override bool IsIn(double x, double y, double epsilon)
         {
-            if (!BoundingRectangle.IsIn(x, y, epsilon)) { return false; }
+            if (!LooseBoundingRectangle.IsIn(x, y, epsilon)) { return false; }
 
             if (Sq(R + epsilon) < Sq(x - XC) + Sq(y - YC))
             {
