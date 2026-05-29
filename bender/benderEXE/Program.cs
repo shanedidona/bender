@@ -1,10 +1,39 @@
-﻿namespace benderEXE
+﻿using Bender.Lib.NET;
+using Serilog;
+
+namespace benderEXE
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            string template = "[{Timestamp:HH:mm:ss.fff} {Level:u3}][{SourceContext}] {Message:lj}{NewLine}{Exception}";
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console(outputTemplate: template)
+                //.WriteTo.File(outputTemplate: template, path: "", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            Log.Information("Logger made");
+
+            double xMin = 0;
+            double yMin = 0;
+            int nx = 1000;
+            int ny = 1000;
+            double pixelSize = 0.001;
+
+            var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
+            voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
+            voltagesAndRegions.Add((1, new Circle(0.1, 0.4, 0.02)));
+            voltagesAndRegions.Add((-0.5, new Rectangle(0.5, 0.5, 0.6, 0.7)));
+
+            ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+
+            string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
+            Directory.CreateDirectory(resultsFolder);
+
+            BenderMath.RenderMat(electrostaticGrid2D).SaveImage(Path.Combine(resultsFolder, "1.png"));
         }
     }
 }
