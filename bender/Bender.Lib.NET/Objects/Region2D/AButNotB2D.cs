@@ -5,13 +5,17 @@
         readonly Region2D _a;
         readonly Region2D _b;
 
+        readonly Rectangle _looseBoundingRectangle;
+
         public AButNotB2D(Region2D a, Region2D b)
         {
             _a = a;
             _b = b;
+
+            _looseBoundingRectangle = _a.LooseBoundingRectangle;
         }
 
-        public override Rectangle LooseBoundingRectangle => _a.LooseBoundingRectangle;
+        public override Rectangle LooseBoundingRectangle => _looseBoundingRectangle;
 
         public override bool IsIn(double x, double y, double epsilon)
         {
