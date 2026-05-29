@@ -11,6 +11,8 @@
             _b = b;
         }
 
+        public override Rectangle LooseBoundingRectangle => _a.LooseBoundingRectangle;
+
         public override bool IsIn(double x, double y, double epsilon)
         {
             return _a.IsIn(x, y, epsilon) && (!_b.IsIn(x, y, epsilon));

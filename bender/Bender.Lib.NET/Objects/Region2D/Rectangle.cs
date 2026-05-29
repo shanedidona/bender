@@ -16,6 +16,8 @@
             YMax = Math.Max(y1, y2);
         }
 
+        public override Rectangle LooseBoundingRectangle => this;
+
         public override bool IsIn(double x, double y, double epsilon)
         {
             if (x < XMin - epsilon) { return false; }

@@ -4,6 +4,8 @@
     {
         readonly Region2D[] _regions;
 
+        readonly Rectangle _looseBoundingRectangle;
+
         public Or2D(Region2D[] regions)
         {
             if (regions.Length == 0)
@@ -12,7 +14,11 @@
             }
 
             _regions = regions;
+
+            _looseBoundingRectangle = Rectangle.CalculateBoundingBox(_regions.Select(x => x.LooseBoundingRectangle).ToArray());
         }
+
+        public override Rectangle LooseBoundingRectangle => _looseBoundingRectangle;
 
         public override bool IsIn(double x, double y, double epsilon)
         {
