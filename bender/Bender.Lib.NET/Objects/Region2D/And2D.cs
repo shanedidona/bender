@@ -22,6 +22,8 @@
 
         public override bool IsIn(double x, double y, double epsilon)
         {
+            if (!_looseBoundingRectangle.IsIn(x, y, epsilon)) { return false; }
+
             foreach (Region2D region in _regions)
             {
                 if (!region.IsIn(x, y, epsilon))
