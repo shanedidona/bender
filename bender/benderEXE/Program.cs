@@ -33,7 +33,8 @@ namespace benderEXE
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
 
-            BenderMath.RenderMat(electrostaticGrid2D).SaveImage(Path.Combine(resultsFolder, "1.png"));
+            OpenCvSharp.Mat mat1 = BenderMath.RenderMat(electrostaticGrid2D, new VoltageColorGenColor());
+            mat1.SaveImage(Path.Combine(resultsFolder, "1.png"));
         }
     }
 }
