@@ -6,9 +6,7 @@ Cite Is/Are?
 
 https://en.wikipedia.org/wiki/Bounding_volume_hierarchy
 
-https://www.taylorfrancis.com/books/mono/10.1201/9781315151250/computational-electromagnetics-matlab-fourth-edition-matthew-sadiku
-which is
-Sadiku, M.N.O. (2018). Computational Electromagnetics with MATLAB, Fourth Edition (4th ed.). CRC Press. https://doi.org/10.1201/9781315151250
+https://www.routledge.com/Computational-Electromagnetics-with-MATLAB-Fourth-Edition/Sadiku/p/book/9781138558151
 
 
 
