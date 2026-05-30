@@ -16,6 +16,8 @@
             YMax = Math.Max(y1, y2);
         }
 
+        public override Rectangle LooseBoundingRectangle => this;
+
         public override bool IsIn(double x, double y, double epsilon)
         {
             if (x < XMin - epsilon) { return false; }
@@ -25,6 +27,30 @@
             if (YMax + epsilon < y) { return false; }
 
             return true;
+        }
+
+        public static Rectangle CalculateBoundingBox(Rectangle[] rectangles)
+        {
+            if (rectangles.Length == 0)
+            {
+                throw new NotSupportedException("rectangles.Length == 0");
+            }
+
+            double xMin = rectangles[0].XMin;
+            double yMin = rectangles[0].YMin;
+            double xMax = rectangles[0].XMax;
+            double yMax = rectangles[0].YMax;
+
+            for (int i = 1; i < rectangles.Length; i++)
+            {
+                xMin = Math.Min(xMin, rectangles[i].XMin);
+                yMin = Math.Min(yMin, rectangles[i].YMin);
+
+                xMax = Math.Max(xMax, rectangles[i].XMax);
+                yMax = Math.Max(yMax, rectangles[i].YMax);
+            }
+
+            return new Rectangle(xMin, yMin, xMax, yMax);
         }
     }
 }
