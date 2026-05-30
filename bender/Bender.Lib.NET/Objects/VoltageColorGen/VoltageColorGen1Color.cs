@@ -2,13 +2,13 @@
 
 namespace Bender.Lib.NET
 {
-    public sealed class VoltageColorGenColor : IVoltageColorGen
+    public sealed class VoltageColorGen1Color : IVoltageColorGen
     {
         readonly byte _r;
         readonly byte _g;
         readonly byte _b;
 
-        public VoltageColorGenColor(byte r, byte g, byte b)
+        public VoltageColorGen1Color(byte r, byte g, byte b)
         {
             _r = r;
             _g = g;
