@@ -24,5 +24,19 @@
             V = new double[nx, ny];
             ID = new ushort[nx, ny];
         }
+
+        public HashSet<ushort> PresentIDs()
+        {
+            var out1 = new HashSet<ushort>();
+            for (int i = 0; i < NX; i++)
+            {
+                for (int j = 0; j < NY; j++)
+                {
+                    out1.Add(ID[i, j]);
+                }
+            }
+
+            return out1;
+        }
     }
 }
