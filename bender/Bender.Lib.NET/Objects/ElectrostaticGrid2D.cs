@@ -24,5 +24,37 @@
             V = new double[nx, ny];
             ID = new ushort[nx, ny];
         }
+
+        public (double VMin, double VMax) PresentMinMaxV()
+        {
+            double vMin = V[0, 0];
+            double vMax = V[0, 0];
+
+
+            for (int i = 0; i < NX; i++)
+            {
+                for (int j = 0; j < NY; j++)
+                {
+                    vMin = Math.Min(vMin, V[i, j]);
+                    vMax = Math.Max(vMax, V[i, j]);
+                }
+            }
+
+            return (vMin, vMax);
+        }
+
+        public HashSet<ushort> PresentIDs()
+        {
+            var out1 = new HashSet<ushort>();
+            for (int i = 0; i < NX; i++)
+            {
+                for (int j = 0; j < NY; j++)
+                {
+                    out1.Add(ID[i, j]);
+                }
+            }
+
+            return out1;
+        }
     }
 }
