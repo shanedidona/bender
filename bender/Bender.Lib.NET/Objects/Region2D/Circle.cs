@@ -21,11 +21,11 @@ namespace Bender.Lib.NET
 
         public override Rectangle LooseBoundingRectangle => _looseBoundingRectangle;
 
-        public override bool IsIn(double x, double y, double epsilon)
+        public override bool IsIn(double x, double y, double dilation)
         {
-            if (!LooseBoundingRectangle.IsIn(x, y, epsilon)) { return false; }
+            if (!LooseBoundingRectangle.IsIn(x, y, dilation)) { return false; }
 
-            if (Sq(R + epsilon) < Sq(x - XC) + Sq(y - YC))
+            if (Sq(R + dilation) < Sq(x - XC) + Sq(y - YC))
             {
                 return false;
             }
