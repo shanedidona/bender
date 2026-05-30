@@ -21,7 +21,7 @@
         {
             if (!_looseBoundingRectangle.IsIn(x,y,dilation)) { return false; }
 
-            return _a.IsIn(x, y, dilation) && (!_b.IsIn(x, y, dilation));
+            return _a.IsIn(x, y, dilation) && (!_b.IsIn(x, y, -dilation));//Notice the minus before dilation
         }
     }
 }
