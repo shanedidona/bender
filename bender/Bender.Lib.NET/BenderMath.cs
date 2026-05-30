@@ -22,7 +22,7 @@ namespace Bender.Lib.NET
                     }
                     else
                     {
-                        vec3BArray[i, j] = new Vec3b(255, 0, 0);
+                        vec3BArray[i, j] = new Vec3b(0, 0, 0);
                     }
                 }
             }
