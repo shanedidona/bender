@@ -18,7 +18,7 @@ namespace Bender.Lib.NET
                 {
                     if (electrostaticGrid2D.ID[j, electrostaticGrid2D.NY - i - 1] == 0)
                     {
-                        vec3BArray[i, j] = voltageColorGen.GenColor(electrostaticGrid2D.V[i, j]);
+                        vec3BArray[i, j] = voltageColorGen.GenColor(electrostaticGrid2D.V[j, electrostaticGrid2D.NY - i - 1]);
                     }
                     else
                     {
