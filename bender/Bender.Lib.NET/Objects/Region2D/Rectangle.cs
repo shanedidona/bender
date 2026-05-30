@@ -18,13 +18,13 @@
 
         public override Rectangle LooseBoundingRectangle => this;
 
-        public override bool IsIn(double x, double y, double epsilon)
+        public override bool IsIn(double x, double y, double dilation)
         {
-            if (x < XMin - epsilon) { return false; }
-            if (y < YMin - epsilon) { return false; }
+            if (x < XMin - dilation) { return false; }
+            if (y < YMin - dilation) { return false; }
 
-            if (XMax + epsilon < x) { return false; }
-            if (YMax + epsilon < y) { return false; }
+            if (XMax + dilation < x) { return false; }
+            if (YMax + dilation < y) { return false; }
 
             return true;
         }
