@@ -9,6 +9,10 @@ https://en.wikipedia.org/wiki/Bounding_volume_hierarchy
 https://www.routledge.com/Computational-Electromagnetics-with-MATLAB-Fourth-Edition/Sadiku/p/book/9781138558151
 
 
+https://github.com/praeclarum/sqlite-net
+https://github.com/praeclarum/sqlite-net/wiki
+
+
 
 
 
