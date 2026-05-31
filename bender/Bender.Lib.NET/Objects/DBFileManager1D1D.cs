@@ -41,7 +41,7 @@
             }
         }
 
-        public Dictionary<double,double> Snapshot()
+        public Dictionary<double, double> Snapshot()
         {
             lock (_dict)
             {
