@@ -19,7 +19,23 @@ namespace Bender.Lib.NET.Objects
                 foreach (string line in File.ReadLines(path))
                 {
                     string[] split1 = line.Split(',');
-                    _dict[double.Parse(split1[0], CultureInfo.InvariantCulture)] = double.Parse(split1[1], CultureInfo.InvariantCulture);
+
+                    if (split1.Length != 2)
+                    {
+                        throw new NotSupportedException("split1.Length != 2");
+                    }
+
+                    if (!double.TryParse(split1[0], CultureInfo.InvariantCulture, out double x))
+                    {
+                        throw new NotSupportedException("x did not parse");
+                    }
+
+                    if (!double.TryParse(split1[1], CultureInfo.InvariantCulture, out double y))
+                    {
+                        throw new NotSupportedException("y did not parse");
+                    }
+
+                    _dict[x] = y;
                 }
             }
 
