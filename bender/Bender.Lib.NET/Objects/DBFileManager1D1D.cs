@@ -1,4 +1,6 @@
-﻿namespace Bender.Lib.NET.Objects
+﻿using System.Globalization;
+
+namespace Bender.Lib.NET.Objects
 {
     public sealed class DBFileManager1D1D
     {
@@ -17,7 +19,7 @@
                 foreach (string line in File.ReadLines(path))
                 {
                     string[] split1 = line.Split(',');
-                    _dict[double.Parse(split1[0])] = double.Parse(split1[1]);
+                    _dict[double.Parse(split1[0], CultureInfo.InvariantCulture)] = double.Parse(split1[1], CultureInfo.InvariantCulture);
                 }
             }
 
@@ -34,7 +36,7 @@
                 }
                 else
                 {
-                    File.AppendAllLines(_path, new string[] { x.ToString() + "," + y.ToString() });
+                    File.AppendAllLines(_path, new string[] { x.ToString(CultureInfo.InvariantCulture) + "," + y.ToString(CultureInfo.InvariantCulture) });
                     _dict.Add(x, y);
                     return true;
                 }
