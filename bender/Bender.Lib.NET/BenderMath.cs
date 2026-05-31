@@ -82,7 +82,7 @@ namespace Bender.Lib.NET
 
                             double neighborMean = neighborSum / numNeighbors;
 
-                            double residual = neighborMean - v[i, j];
+                            double residual = v[i, j] - neighborMean;
 
                             numResid++;
                             residAbsSum += Math.Abs(residual);
