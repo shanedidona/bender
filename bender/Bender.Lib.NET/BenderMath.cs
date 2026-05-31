@@ -92,11 +92,13 @@ namespace Bender.Lib.NET
                     }
                 }
 
-                out1List.Add(residAbsSum / numResid);
+                double meanAbsResid = residAbsSum / numResid;
+
+                out1List.Add(meanAbsResid);
                 numResid = 0;
                 residAbsSum = 0;
 
-                if (out1List.Last() < meanAbsChangeStop)
+                if (meanAbsResid < meanAbsChangeStop)
                 {
                     return (out1List.ToArray(), true);
                 }
