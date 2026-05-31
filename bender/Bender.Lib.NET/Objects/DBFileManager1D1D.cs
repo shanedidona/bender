@@ -9,7 +9,7 @@
         {
             if (!Directory.Exists(Path.GetDirectoryName(path)))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
 
             if (File.Exists(path))
