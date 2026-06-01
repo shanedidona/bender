@@ -6,7 +6,7 @@
         public readonly double YMin;
         public readonly int NX;
         public readonly int NY;
-        public double PixelSize;
+        public readonly double PixelSize;
         public double[,] V;//[xi,yi]
         public ushort[,] ID;//[xi,yi]
 
