@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Bender.Lib.NET.Objects
+namespace Bender.Lib.NET
 {
     public sealed class DBFileManager1D1D
     {
@@ -64,6 +64,14 @@ namespace Bender.Lib.NET.Objects
             lock (_dict)
             {
                 return new Dictionary<double, double>(_dict);
+            }
+        }
+
+        public bool ContainsKey(double x)
+        {
+            lock (_dict)
+            {
+                return _dict.ContainsKey(x);
             }
         }
     }
