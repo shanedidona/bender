@@ -18,7 +18,6 @@ namespace benderEXE
             Log.Information("Logger made");
 
             RelaxFactorExplore();
-            return;
 
             double xMin = 0;
             double yMin = 0;
