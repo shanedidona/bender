@@ -17,11 +17,13 @@ namespace benderEXE
 
             Log.Information("Logger made");
 
+            RelaxFactorExplore();
+
             double xMin = 0;
             double yMin = 0;
-            int nx = 1000;
-            int ny = 1000;
-            double pixelSize = 0.001;
+            int nx = 100;
+            int ny = 100;
+            double pixelSize = 0.01;
 
             var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
             voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
@@ -30,12 +32,83 @@ namespace benderEXE
 
             ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
 
+            var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.5, 1E-9, 1_000_000_000);
+
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
 
             IVoltageColorGen voltageColorGen = new VoltageColorGen2Color(-1, 1, 255, 0, 0, 0, 0, 255);
 
             BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen).SaveImage(Path.Combine(resultsFolder, "1.png"));
+        }
+
+        static void RelaxFactorExplore()
+        {
+            DBFileManager1D1D dBFileManager1D1D = new DBFileManager1D1D(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results", "relaxationFactor.csv"));
+
+            var relaxFactors = new HashSet<double>();
+            relaxFactors.Add(1.5);
+            for (int i = 1; i <= 9; i++)
+            {
+                relaxFactors.Add(Math.Round(1 + 0.1 * i,3));
+            }
+
+            for (int i = 1; i <= 9; i++)
+            {
+                relaxFactors.Add(Math.Round(1.9 + 0.01 * i, 3));
+            }
+
+            for (int i = 1; i <= 9; i++)
+            {
+                relaxFactors.Add(Math.Round(1.99 + 0.001 * i, 3));
+            }
+
+            for (int i = 1; i <= 9; i++)
+            {
+                relaxFactors.Add(Math.Round(1.999 + 0.0001 * i, 4));
+            }
+
+            relaxFactors.Add(1.01);
+            relaxFactors.Add(1.001);
+            relaxFactors.Add(1.0001);
+            relaxFactors.Add(1.00001);
+            relaxFactors.Add(1.000001);
+            relaxFactors.Add(1.0000001);
+
+            for (double x = 1.94; x <= 1.985; x += 0.00001)
+            {
+                relaxFactors.Add(Math.Round(x, 5));
+            }
+
+            for (double x = 1.001; x <= 1.999; x += 0.001)
+            {
+                relaxFactors.Add(Math.Round(x, 3));
+            }
+
+            foreach (double relaxFactor in relaxFactors)
+            {
+                if (dBFileManager1D1D.ContainsKey(relaxFactor))
+                {
+                    continue;
+                }
+
+                double xMin = 0;
+                double yMin = 0;
+                int nx = 100;
+                int ny = 100;
+                double pixelSize = 0.01;
+
+                var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
+                voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
+                voltagesAndRegions.Add((1, new Circle(0.1, 0.4, 0.02)));
+                voltagesAndRegions.Add((-0.5, new Rectangle(0.5, 0.5, 0.6, 0.7)));
+
+                ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+
+                var solve1Var = BenderMath.SolveField(electrostaticGrid2D, relaxFactor, 1E-9, 1_000_000_000);
+
+                dBFileManager1D1D.Add(relaxFactor, solve1Var.MeanAbsChangeArray.Length);
+            }
         }
     }
 }
