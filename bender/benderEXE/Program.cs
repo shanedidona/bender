@@ -21,9 +21,9 @@ namespace benderEXE
 
             double xMin = 0;
             double yMin = 0;
-            int nx = 100;
-            int ny = 100;
-            double pixelSize = 0.01;
+            int nx = 200;
+            int ny = 200;
+            double pixelSize = 0.005;
 
             var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
             voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
@@ -32,7 +32,7 @@ namespace benderEXE
 
             ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
 
-            var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.5, 1E-9, 1_000_000_000);
+            var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.8, 1E-9, 1_000_000_000);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
