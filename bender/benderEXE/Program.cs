@@ -39,7 +39,12 @@ namespace benderEXE
 
             IVoltageColorGen voltageColorGen = new VoltageColorGen2Color(-1, 1, 255, 0, 0, 0, 0, 255);
 
-            BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen).SaveImage(Path.Combine(resultsFolder, "1.png"));
+            EquipotentialDraw2DSpec equipotentialDraw2DSpec = new EquipotentialDraw2DSpec(
+                    new double[] {0},
+                    new OpenCvSharp.Vec3b[] {new OpenCvSharp.Vec3b(0,255,0)}
+                );
+
+            BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen, equipotentialDraw2DSpec).SaveImage(Path.Combine(resultsFolder, "1.png"));
         }
 
         static void RelaxFactorExplore()
