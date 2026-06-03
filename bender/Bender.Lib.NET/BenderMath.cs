@@ -12,6 +12,40 @@ namespace Bender.Lib.NET
         public static Mat RenderMat(ElectrostaticGrid2D electrostaticGrid2D, IVoltageColorGen voltageColorGen, EquipotentialDraw2DSpec equipotentialDraw2DSpec)
         {
             var vec3BArray = new Vec3b[electrostaticGrid2D.NY, electrostaticGrid2D.NX];
+
+            for (int i = 0; i < electrostaticGrid2D.NX; i++)
+            {
+                for (int j = 0; j < electrostaticGrid2D.NY; j++)
+                {
+                    int pi = electrostaticGrid2D.NY - j - 1;
+                    int pj = i;
+
+                    if (electrostaticGrid2D.ID[i, j] == 0)
+                    {
+                        vec3BArray[pi, pj] = voltageColorGen.GenColor(electrostaticGrid2D.V[i, j]);
+                    }
+                    else
+                    {
+                        vec3BArray[pi, pj] = new Vec3b(0, 0, 0);
+                    }
+
+
+
+
+
+
+
+                }
+            }
+
+
+            return Mat.FromPixelData(electrostaticGrid2D.NY, electrostaticGrid2D.NX, MatType.CV_8UC3, vec3BArray);
+
+
+
+
+
+
             for (int i = 0; i < electrostaticGrid2D.NY; i++)
             {
                 for (int j = 0; j < electrostaticGrid2D.NX; j++)
