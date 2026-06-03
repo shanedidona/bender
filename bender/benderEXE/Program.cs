@@ -22,7 +22,7 @@ namespace benderEXE
             double xMin = 0;
             double yMin = 0;
             int nx = 200;
-            int ny = 200;
+            int ny = 300;
             double pixelSize = 0.005;
 
             var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
