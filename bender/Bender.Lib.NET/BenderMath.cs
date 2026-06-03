@@ -29,12 +29,31 @@ namespace Bender.Lib.NET
                         vec3BArray[pi, pj] = new Vec3b(0, 0, 0);
                     }
 
+                    var neighborVs = new List<double>();
+                    if (i != 0) { neighborVs.Add(electrostaticGrid2D.V[i - 1, j]); }
+                    if (j != 0) { neighborVs.Add(electrostaticGrid2D.V[i, j - 1]); }
+                    if (i != electrostaticGrid2D.NX - 1) { neighborVs.Add(electrostaticGrid2D.V[i + 1, j]); }
+                    if (j != electrostaticGrid2D.NY - 1) { neighborVs.Add(electrostaticGrid2D.V[i, j + 1]); }
 
+                    for (int k = 0; k < equipotentialDraw2DSpec.BGRArray.Length; k++)
+                    {
+                        bool drewPixel = false;
+                        foreach (double neighborV in neighborVs)
+                        {
+                            double min1 = Math.Min(electrostaticGrid2D.V[i, j], neighborV);
+                            double max1 = Math.Max(electrostaticGrid2D.V[i, j], neighborV);
 
+                            if (min1 <= equipotentialDraw2DSpec.Vs[k] && equipotentialDraw2DSpec.Vs[k] <= max1)
+                            {
+                                vec3BArray[pi, pj] = equipotentialDraw2DSpec.BGRArray[k];
+                            }
+                        }
 
-
-
-
+                        if (drewPixel)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
