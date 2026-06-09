@@ -158,5 +158,107 @@ namespace Bender.Lib.NET
 
             return (out1Array, false);
         }
+
+        public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStage2(
+                double[,] v,
+                ushort[,] id,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries
+            )
+        {
+            Stopwatch sw1 = Stopwatch.StartNew();
+
+            int nx = v.GetLength(0);
+            int ny = v.GetLength(1);
+
+            double oneOver3 = 1.0 / 3.0;
+
+            var out1List = new List<double>();
+            for (int tryI = 0; tryI < maxTries; tryI++)
+            {
+                #region Middle
+                double residAbsSum = 0;
+                int numResid = 0;
+                for (int i = 1; i < nx - 1; i++)
+                {
+                    for (int j = 1; j < ny - 1; j++)
+                    {
+                        if (id[i, j] == 0)
+                        {
+                            double neighborMean = 0.25 * (v[i - 1, j] + v[i + 1, j] + v[i, j - 1] + v[i, j + 1]);
+                            double residual = v[i, j] - neighborMean;
+
+                            residAbsSum += Math.Abs(residual);
+                            numResid++;
+                            v[i, j] -= relaxationFactor * residual;
+                        }
+                    }
+                }
+                #endregion
+
+                #region i==0 Edge (but not corners)
+                for (int j = 1; j < ny - 1; j++)
+                {
+                    int i = 0;
+                    if (id[i, j] == 0)
+                    {
+                        double neighborMean = oneOver3 * (v[i, j - 1] + v[i, j + 1] + v[i + 1, j]);
+                        double residual = v[i, j] - neighborMean;
+
+                        residAbsSum += Math.Abs(residual);
+                        numResid++;
+                        v[i, j] -= relaxationFactor * residual;
+                    }
+                }
+                #endregion
+
+                #region i==nx-1 Edge (but not corners)
+                for (int j = 1; j < ny - 1; j++)
+                {
+                    int i = nx - 1;
+                    if (id[i, j] == 0)
+                    {
+                        double neighborMean = oneOver3 * (v[i, j - 1] + v[i, j + 1] + v[i - 1, j]);
+                        double residual = v[i, j] - neighborMean;
+
+                        residAbsSum += Math.Abs(residual);
+                        numResid++;
+                        v[i, j] -= relaxationFactor * residual;
+                    }
+                }
+                #endregion
+
+                #region j==0 Edge (but not corners)
+                for (int i = 1; i < nx - 1; i++)
+                {
+                    int j = 0;
+                    if (id[i, j] == 0)
+                    {
+                        double neighborMean = oneOver3 * (v[i - 1, j] + v[i + 1, j] + v[i, j + 1]);
+                        double residual = v[i, j] - neighborMean;
+
+                        residAbsSum += Math.Abs(residual);
+                        numResid++;
+                        v[i, j] -= relaxationFactor * residual;
+                    }
+                }
+
+
+
+
+
+
+                #endregion
+
+
+
+
+
+            }
+
+
+
+        }
     }
 }
