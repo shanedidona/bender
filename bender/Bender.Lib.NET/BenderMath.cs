@@ -9,23 +9,54 @@ namespace Bender.Lib.NET
             return x * x;
         }
 
-        public static Mat RenderMat(ElectrostaticGrid2D electrostaticGrid2D, IVoltageColorGen voltageColorGen)
+        public static Mat RenderMat(ElectrostaticGrid2D electrostaticGrid2D, IVoltageColorGen voltageColorGen, EquipotentialDraw2DSpec equipotentialDraw2DSpec)
         {
             var vec3BArray = new Vec3b[electrostaticGrid2D.NY, electrostaticGrid2D.NX];
-            for (int i = 0; i < electrostaticGrid2D.NY; i++)
+
+            for (int i = 0; i < electrostaticGrid2D.NX; i++)
             {
-                for (int j = 0; j < electrostaticGrid2D.NX; j++)
+                for (int j = 0; j < electrostaticGrid2D.NY; j++)
                 {
-                    if (electrostaticGrid2D.ID[j, electrostaticGrid2D.NY - i - 1] == 0)
+                    int pi = electrostaticGrid2D.NY - j - 1;
+                    int pj = i;
+
+                    if (electrostaticGrid2D.ID[i, j] == 0)
                     {
-                        vec3BArray[i, j] = voltageColorGen.GenColor(electrostaticGrid2D.V[j, electrostaticGrid2D.NY - i - 1]);
+                        vec3BArray[pi, pj] = voltageColorGen.GenColor(electrostaticGrid2D.V[i, j]);
                     }
                     else
                     {
-                        vec3BArray[i, j] = new Vec3b(0, 0, 0);
+                        vec3BArray[pi, pj] = new Vec3b(0, 0, 0);
+                    }
+
+                    var neighborVs = new List<double>();
+                    if (i != 0) { neighborVs.Add(electrostaticGrid2D.V[i - 1, j]); }
+                    if (j != 0) { neighborVs.Add(electrostaticGrid2D.V[i, j - 1]); }
+                    if (i != electrostaticGrid2D.NX - 1) { neighborVs.Add(electrostaticGrid2D.V[i + 1, j]); }
+                    if (j != electrostaticGrid2D.NY - 1) { neighborVs.Add(electrostaticGrid2D.V[i, j + 1]); }
+
+                    for (int k = 0; k < equipotentialDraw2DSpec.BGRArray.Length; k++)
+                    {
+                        bool drewPixel = false;
+                        foreach (double neighborV in neighborVs)
+                        {
+                            double min1 = Math.Min(electrostaticGrid2D.V[i, j], neighborV);
+                            double max1 = Math.Max(electrostaticGrid2D.V[i, j], neighborV);
+
+                            if (min1 <= equipotentialDraw2DSpec.Vs[k] && equipotentialDraw2DSpec.Vs[k] <= max1)
+                            {
+                                vec3BArray[pi, pj] = equipotentialDraw2DSpec.BGRArray[k];
+                            }
+                        }
+
+                        if (drewPixel)
+                        {
+                            break;
+                        }
                     }
                 }
             }
+
 
             return Mat.FromPixelData(electrostaticGrid2D.NY, electrostaticGrid2D.NX, MatType.CV_8UC3, vec3BArray);
         }

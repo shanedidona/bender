@@ -21,9 +21,9 @@ namespace benderEXE
 
             double xMin = 0;
             double yMin = 0;
-            int nx = 100;
-            int ny = 100;
-            double pixelSize = 0.01;
+            int nx = 200;
+            int ny = 300;
+            double pixelSize = 0.005;
 
             var voltagesAndRegions = new List<(double V, Region2D ElectrodeRegion2D)>();
             voltagesAndRegions.Add((0, new Circle(0.1, 0.2, 0.02)));
@@ -32,14 +32,19 @@ namespace benderEXE
 
             ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
 
-            var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.5, 1E-9, 1_000_000_000);
+            var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.8, 1E-9, 1_000_000_000);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
 
             IVoltageColorGen voltageColorGen = new VoltageColorGen2Color(-1, 1, 255, 0, 0, 0, 0, 255);
 
-            BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen).SaveImage(Path.Combine(resultsFolder, "1.png"));
+            EquipotentialDraw2DSpec equipotentialDraw2DSpec = new EquipotentialDraw2DSpec(
+                    new double[] {-0.4,-0.3,0},
+                    new OpenCvSharp.Vec3b[] {new OpenCvSharp.Vec3b(128,128,0), new OpenCvSharp.Vec3b(60,60,60) , new OpenCvSharp.Vec3b(0, 255, 0) }
+                );
+
+            BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen, equipotentialDraw2DSpec).SaveImage(Path.Combine(resultsFolder, "1.png"));
         }
 
         static void RelaxFactorExplore()
