@@ -1,4 +1,5 @@
 ﻿using OpenCvSharp;
+using System.Diagnostics;
 
 namespace Bender.Lib.NET
 {
@@ -79,6 +80,8 @@ namespace Bender.Lib.NET
                 int maxTries
             )
         {
+            Stopwatch sw1 = Stopwatch.StartNew();
+
             int nx = v.GetLength(0);
             int ny = v.GetLength(1);
 
@@ -141,11 +144,17 @@ namespace Bender.Lib.NET
 
                 if (meanAbsResid < meanAbsChangeStop)
                 {
-                    return (out1List.ToArray(), true);
+                    double[] out1Array1 = out1List.ToArray();
+
+                    Serilog.Log.Information("Solve2DFieldSingleStage took {timeMS} ms", sw1.ElapsedMilliseconds);
+
+                    return (out1Array1, true);
                 }
             }
 
             double[] out1Array = out1List.ToArray();
+
+            Serilog.Log.Information("Solve2DFieldSingleStage took {timeMS} ms", sw1.ElapsedMilliseconds);
 
             return (out1Array, false);
         }

@@ -45,6 +45,8 @@ namespace benderEXE
                 );
 
             BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen, equipotentialDraw2DSpec).SaveImage(Path.Combine(resultsFolder, "1.png"));
+
+            Thread.Sleep(1000);
         }
 
         static void RelaxFactorExplore()
