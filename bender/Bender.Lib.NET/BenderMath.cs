@@ -136,7 +136,7 @@ namespace Bender.Lib.NET
                 }
 
                 double meanAbsResid = residAbsSum / numResid;
-                Serilog.Log.Information("meanAbsResid {meanAbsResid}", meanAbsResid);
+                //Serilog.Log.Information("meanAbsResid {meanAbsResid}", meanAbsResid);
 
                 out1List.Add(meanAbsResid);
                 numResid = 0;
