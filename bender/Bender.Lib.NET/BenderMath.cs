@@ -243,13 +243,30 @@ namespace Bender.Lib.NET
                         v[i, j] -= relaxationFactor * residual;
                     }
                 }
-
-
-
-
-
-
                 #endregion
+
+                #region j==ny-1 Edge (but not corners)
+                for (int i = 1; i < nx - 1; i++)
+                {
+                    int j = ny-1;
+                    if (id[i, j] == 0)
+                    {
+                        double neighborMean = oneOver3 * (v[i - 1, j] + v[i + 1, j] + v[i, j - 1]);
+                        double residual = v[i, j] - neighborMean;
+
+                        residAbsSum += Math.Abs(residual);
+                        numResid++;
+                        v[i, j] -= relaxationFactor * residual;
+                    }
+                }
+                #endregion
+
+
+
+
+
+
+
 
 
 
