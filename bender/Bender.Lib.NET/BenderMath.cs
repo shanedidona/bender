@@ -145,7 +145,9 @@ namespace Bender.Lib.NET
                 }
             }
 
-            return (out1List.ToArray(), false);
+            double[] out1Array = out1List.ToArray();
+
+            return (out1Array, false);
         }
     }
 }
