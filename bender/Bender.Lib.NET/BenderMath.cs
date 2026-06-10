@@ -248,7 +248,7 @@ namespace Bender.Lib.NET
                 #region j==ny-1 Edge (but not corners)
                 for (int i = 1; i < nx - 1; i++)
                 {
-                    int j = ny-1;
+                    int j = ny - 1;
                     if (id[i, j] == 0)
                     {
                         double neighborMean = oneOver3 * (v[i - 1, j] + v[i + 1, j] + v[i, j - 1]);
@@ -281,7 +281,7 @@ namespace Bender.Lib.NET
 
                     #region i==nx-1; j==0
                     {
-                        int i = nx-1;
+                        int i = nx - 1;
                         int j = 0;
                         if (id[i, j] == 0)
                         {
@@ -298,7 +298,7 @@ namespace Bender.Lib.NET
                     #region i==0; j==ny-1
                     {
                         int i = 0;
-                        int j = ny-1;
+                        int j = ny - 1;
                         if (id[i, j] == 0)
                         {
                             double neighborMean = 0.5 * (v[i + 1, j] + v[i, j - 1]);
@@ -314,7 +314,7 @@ namespace Bender.Lib.NET
                     #region i==nx-1; j==ny-1
                     {
                         int i = nx - 1;
-                        int j = ny-1;
+                        int j = ny - 1;
                         if (id[i, j] == 0)
                         {
                             double neighborMean = 0.5 * (v[i - 1, j] + v[i, j - 1]);
