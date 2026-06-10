@@ -269,7 +269,7 @@ namespace Bender.Lib.NET
                         int j = 0;
                         if (id[i, j] == 0)
                         {
-                            double neighborMean = 0.5 * (v[i - 1, j] + v[i, j + 1]);
+                            double neighborMean = 0.5 * (v[i + 1, j] + v[i, j + 1]);
                             double residual = v[i, j] - neighborMean;
 
                             residAbsSum += Math.Abs(residual);
@@ -285,7 +285,7 @@ namespace Bender.Lib.NET
                         int j = 0;
                         if (id[i, j] == 0)
                         {
-                            double neighborMean = 0.5 * (v[i + 1, j] + v[i, j + 1]);
+                            double neighborMean = 0.5 * (v[i - 1, j] + v[i, j + 1]);
                             double residual = v[i, j] - neighborMean;
 
                             residAbsSum += Math.Abs(residual);
