@@ -295,13 +295,13 @@ namespace Bender.Lib.NET
                     }
                     #endregion
 
-                    #region i==0; j==0
+                    #region i==0; j==ny-1
                     {
                         int i = 0;
-                        int j = 0;
+                        int j = ny-1;
                         if (id[i, j] == 0)
                         {
-                            double neighborMean = 0.5 * (v[i + 1, j] + v[i, j + 1]);
+                            double neighborMean = 0.5 * (v[i + 1, j] + v[i, j - 1]);
                             double residual = v[i, j] - neighborMean;
 
                             residAbsSum += Math.Abs(residual);
@@ -311,13 +311,13 @@ namespace Bender.Lib.NET
                     }
                     #endregion
 
-                    #region i==nx-1; j==0
+                    #region i==nx-1; j==ny-1
                     {
                         int i = nx - 1;
-                        int j = 0;
+                        int j = ny-1;
                         if (id[i, j] == 0)
                         {
-                            double neighborMean = 0.5 * (v[i - 1, j] + v[i, j + 1]);
+                            double neighborMean = 0.5 * (v[i - 1, j] + v[i, j - 1]);
                             double residual = v[i, j] - neighborMean;
 
                             residAbsSum += Math.Abs(residual);
