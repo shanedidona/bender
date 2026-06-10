@@ -329,19 +329,26 @@ namespace Bender.Lib.NET
                 }
                 #endregion
 
+                double meanAbsResid = residAbsSum / numResid;
+                //Serilog.Log.Information("meanAbsResid {meanAbsResid}", meanAbsResid);
 
+                out1List.Add(meanAbsResid);
 
+                if (meanAbsResid < meanAbsChangeStop)
+                {
+                    double[] out1Array1 = out1List.ToArray();
 
+                    Serilog.Log.Information("Solve2DFieldSingleStage took {timeMS} ms", sw1.ElapsedMilliseconds);
 
-
-
-
-
-
+                    return (out1Array1, true);
+                }
             }
 
+            double[] out1Array = out1List.ToArray();
 
+            Serilog.Log.Information("Solve2DFieldSingleStage took {timeMS} ms", sw1.ElapsedMilliseconds);
 
+            return (out1Array, false);
         }
     }
 }
