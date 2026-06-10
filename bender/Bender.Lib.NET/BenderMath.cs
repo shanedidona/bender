@@ -72,6 +72,16 @@ namespace Bender.Lib.NET
             return Solve2DFieldSingleStage(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
         }
 
+        public static (double[] MeanAbsChangeArray, bool Finished) SolveField2(
+                ElectrostaticGrid2D electrostaticGrid2D,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries
+            )//TODO:  this will be slow and replaced with a version that does demagnified versions first
+        {
+            return Solve2DFieldSingleStage2(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
+        }
+
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStage(
                 double[,] v,
                 ushort[,] id,
