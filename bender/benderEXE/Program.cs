@@ -38,6 +38,20 @@ namespace benderEXE
 
             var solve2Var = BenderMath.SolveField2(electrostaticGrid2D2, 1.8, 1E-9, 1_000_000_000);
 
+            double totalAbsDiff = 0;
+            double maxAbsDiff = 0;
+            for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
+            {
+                for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
+                {
+                    totalAbsDiff += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
+                    maxAbsDiff = Math.Max(maxAbsDiff, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]));
+                }
+            }
+
+            Serilog.Log.Information("totalAbsDiff = " + totalAbsDiff);
+            Serilog.Log.Information("maxAbsDiff = " + maxAbsDiff);
+
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
 
