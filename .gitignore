@@ -3,3 +3,4 @@ bin/
 obj/
 Results/
 bender/Bender.Lib.Native/x64/Release
+bender/x64/Release
