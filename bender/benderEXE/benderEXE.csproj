@@ -13,8 +13,7 @@
   </ItemGroup>
 
 	<Target Name="CopyNative" AfterTargets="Build">
-		<Copy SourceFiles="$(SolutionDir)Bender.Lib.Native\x64\$(Configuration)\Bender.Lib.Native.dll"
-			  DestinationFolder="$(OutDir)" />
+		<Copy SourceFiles="$(SolutionDir)x64\$(Configuration)\Bender.Lib.Native.dll" DestinationFolder="$(OutDir)" />
 	</Target>
 	
 </Project>
