@@ -12,4 +12,9 @@
     <ProjectReference Include="..\Bender.Lib.NET\Bender.Lib.NET.csproj" />
   </ItemGroup>
 
+	<Target Name="CopyNative" AfterTargets="Build">
+		<Copy SourceFiles="$(SolutionDir)Bender.Lib.Native\x64\$(Configuration)\Bender.Lib.Native.dll"
+			  DestinationFolder="$(OutDir)" />
+	</Target>
+	
 </Project>
