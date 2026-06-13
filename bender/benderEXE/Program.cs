@@ -1,4 +1,5 @@
 ﻿using Bender.Lib.NET;
+using Bender.Lib.NET.Interop;
 using Serilog;
 
 namespace benderEXE
@@ -7,6 +8,13 @@ namespace benderEXE
     {
         static void Main(string[] args)
         {
+            int c = InteropClass.Add(2, 3);
+
+
+
+
+            return;
+
             string template = "[{Timestamp:HH:mm:ss.fff} {Level:u3}][{SourceContext}] {Message:lj}{NewLine}{Exception}";
 
             Log.Logger = new LoggerConfiguration()
