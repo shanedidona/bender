@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <ProjectReference Include="..\Bender.Lib.Native\Bender.Lib.Native.vcxproj" >
+		  <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+	  </ProjectReference>
     <ProjectReference Include="..\Bender.Lib.NET\Bender.Lib.NET.csproj" />
   </ItemGroup>
 
