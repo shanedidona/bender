@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="bender1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
