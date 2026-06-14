@@ -53,20 +53,15 @@ EXPORT int Solve1(
 		{
 			for (int j = 1; j < ny - 1; j++)
 			{
-				if (TwoDRead(id, i, j, ny) == 0)
+				int centerCoord = i * ny + j;
+				if (id[centerCoord] == 0)
 				{
-					double neighborMean = 0.25 *
-						(
-							TwoDRead(v, i - 1, j, ny)
-							+ TwoDRead(v, i + 1, j, ny)
-							+ TwoDRead(v, i, j - 1, ny)
-							+ TwoDRead(v, i, j + 1, ny)
-							);
-					double residual = TwoDRead(v, i, j, ny) - neighborMean;
+					double neighborMean = 0.25 * (v[centerCoord - 1] + v[centerCoord + 1] + v[centerCoord - ny] + v[centerCoord + ny]);
+					double residual = v[centerCoord] - neighborMean;
 
 					residAbsSum += abs(residual);
 					numResid++;
-					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					v[centerCoord] -= relaxationFactor * residual;
 				}
 			}
 		}
