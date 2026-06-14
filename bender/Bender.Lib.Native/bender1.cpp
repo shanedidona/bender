@@ -28,6 +28,23 @@ EXPORT int Solve1(
 
 	for (int tryI = 0; tryI < maxTries; tryI++)
 	{
+		double residAbsSum = 0;
+		int numResid = 0;
+		for (int i = 1; i < nx - 1; i++)
+		{
+			for (int j = 1; j < ny - 1; j++)
+			{
+				if (id[i, j] == 0)
+				{
+					double neighborMean = 0.25 * (v[i - 1, j] + v[i + 1, j] + v[i, j - 1] + v[i, j + 1]);
+					double residual = v[i, j] - neighborMean;
+
+					residAbsSum += Math.Abs(residual);
+					numResid++;
+					v[i, j] -= relaxationFactor * residual;
+				}
+			}
+		}
 
 
 
