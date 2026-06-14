@@ -215,34 +215,17 @@ EXPORT int Solve1(
 		double meanAbsResid = residAbsSum / numResid;
 		out1Vector.push_back(meanAbsResid);
 
+		if (meanAbsResid < meanAbsChangeStop)
+		{
+			int outArrayLen = out1Vector.size();
+			double* outArray = new double[outArrayLen];
+			std::copy(out1Vector.begin(), out1Vector.end(), outArray);
+			*outMeanAbsChangeArray = outArray;
+			*outMeanAbsChangeArrayLen = outArrayLen;
 
-
-
-
-
+			return 1;
+		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	int outArrayLen = out1Vector.size();
 	double* outArray = new double[outArrayLen];
