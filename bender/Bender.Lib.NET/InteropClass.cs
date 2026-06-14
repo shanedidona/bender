@@ -48,6 +48,7 @@ namespace Bender.Lib.NET.Interop
 
             var meanAbsChangeArray = new double[meanAbsChangeArrayLen];
             Marshal.Copy((IntPtr)meanAbsChangeArrayPtr, meanAbsChangeArray, 0, meanAbsChangeArrayLen);
+            DeleteDoubleArray(meanAbsChangeArrayPtr);
             return (meanAbsChangeArray, finishedInt != 0);
         }
     }
