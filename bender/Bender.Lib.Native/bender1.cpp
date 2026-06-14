@@ -80,9 +80,9 @@ EXPORT int Solve1(
 				double neighborMean = oneOver3 * (v[i, j - 1] + v[i, j + 1] + v[i + 1, j]);
 				double residual = v[i, j] - neighborMean;
 
-				residAbsSum += Math.Abs(residual);
+				residAbsSum += abs(residual);
 				numResid++;
-				v[i, j] -= relaxationFactor * residual;
+				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 			}
 		}
 
