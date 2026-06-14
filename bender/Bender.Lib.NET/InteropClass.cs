@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Bender.Lib.NET.Interop
 {
@@ -30,6 +31,8 @@ namespace Bender.Lib.NET.Interop
                 int maxTries
             )
         {
+            Stopwatch sw1 = Stopwatch.StartNew();
+
             int nx = v.GetLength(0);
             int ny = v.GetLength(1);
 
@@ -49,6 +52,9 @@ namespace Bender.Lib.NET.Interop
             var meanAbsChangeArray = new double[meanAbsChangeArrayLen];
             Marshal.Copy((IntPtr)meanAbsChangeArrayPtr, meanAbsChangeArray, 0, meanAbsChangeArrayLen);
             DeleteDoubleArray(meanAbsChangeArrayPtr);
+
+            Serilog.Log.Information("Solve2DFieldSingleStage took {timeMS} ms", sw1.ElapsedMilliseconds);
+
             return (meanAbsChangeArray, finishedInt != 0);
         }
     }
