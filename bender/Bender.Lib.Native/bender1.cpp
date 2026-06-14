@@ -63,7 +63,7 @@ EXPORT int Solve1(
 							+ TwoDRead(v, i, j - 1, ny)
 							+ TwoDRead(v, i, j + 1, ny)
 							);
-					double residual = TwoDRead(v, i, j, ny) - neighborMean;
+					double residual = v[centerCoord] - neighborMean;
 
 					residAbsSum += abs(residual);
 					numResid++;
