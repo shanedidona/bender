@@ -1,4 +1,5 @@
-﻿using OpenCvSharp;
+﻿using Bender.Lib.NET.Interop;
+using OpenCvSharp;
 using System.Diagnostics;
 
 namespace Bender.Lib.NET
@@ -80,6 +81,16 @@ namespace Bender.Lib.NET
             )//TODO:  this will be slow and replaced with a version that does demagnified versions first
         {
             return Solve2DFieldSingleStage2(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
+        }
+
+        public static (double[] MeanAbsChangeArray, bool Finished) SolveFieldCPP(
+                ElectrostaticGrid2D electrostaticGrid2D,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries
+            )//TODO:  this will be slow and replaced with a version that does demagnified versions first
+        {
+            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
         }
 
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStage(

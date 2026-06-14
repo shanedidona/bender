@@ -42,19 +42,39 @@ namespace benderEXE
 
             var solve2Var = BenderMath.SolveField2(electrostaticGrid2D2, 1.8, 1E-9, 1_000_000_000);
 
+            ElectrostaticGrid2D electrostaticGrid2DCPP = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+
+            var solveCPPVar = BenderMath.SolveFieldCPP(electrostaticGrid2DCPP, 1.8, 1E-9, 1_000_000_000);
+
             double totalAbsDiff = 0;
             double maxAbsDiff = 0;
+            double totalAbsDiffCPP = 0;
+            double maxAbsDiffCPP = 0;
+            double totalAbsDiffCPP2 = 0;
+            double maxAbsDiffCPP2 = 0;
             for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
             {
                 for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
                 {
                     totalAbsDiff += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
                     maxAbsDiff = Math.Max(maxAbsDiff, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]));
+
+                    totalAbsDiffCPP += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
+
+                    totalAbsDiffCPP2 += Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    maxAbsDiffCPP2 = Math.Max(maxAbsDiffCPP2, Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
                 }
             }
 
             Serilog.Log.Information("totalAbsDiff = " + totalAbsDiff);
             Serilog.Log.Information("maxAbsDiff = " + maxAbsDiff);
+
+            Serilog.Log.Information("totalAbsDiffCPP = " + totalAbsDiffCPP);
+            Serilog.Log.Information("maxAbsDiffCPP = " + maxAbsDiffCPP);
+
+            Serilog.Log.Information("totalAbsDiffCPP2 = " + totalAbsDiffCPP2);
+            Serilog.Log.Information("maxAbsDiffCPP2 = " + maxAbsDiffCPP2);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
