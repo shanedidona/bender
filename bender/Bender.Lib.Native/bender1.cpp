@@ -75,7 +75,7 @@ EXPORT int Solve1(
 		for (int j = 1; j < ny - 1; j++)
 		{
 			int i = 0;
-			if (id[i, j] == 0)
+			if (TwoDRead(id, i, j, ny) == 0)
 			{
 				double neighborMean = oneOver3 * (v[i, j - 1] + v[i, j + 1] + v[i + 1, j]);
 				double residual = v[i, j] - neighborMean;
