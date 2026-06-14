@@ -23,8 +23,7 @@ EXPORT int Solve1(
 	int* outMeanAbsChangeArrayLen
 )
 {
-	std::vector<double> woooo;
-	woooo.push_back(2.3);
+	
 
 
 
@@ -33,9 +32,24 @@ EXPORT int Solve1(
 
 
 
-	int outArrayLen = woooo.size();
+
+
+
+
+
+	std::vector<double> out1Vector;
+	out1Vector.push_back(2.3);
+
+
+
+
+
+
+
+
+	int outArrayLen = out1Vector.size();
 	double* outArray = new double[outArrayLen];
-	std::copy(woooo.begin(), woooo.end(), outArray);
+	std::copy(out1Vector.begin(), out1Vector.end(), outArray);
 	*outMeanAbsChangeArray = outArray;
 	*outMeanAbsChangeArrayLen = outArrayLen;
 
