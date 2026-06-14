@@ -252,7 +252,7 @@ EXPORT int Solve1(
 	*outMeanAbsChangeArray = outArray;
 	*outMeanAbsChangeArrayLen = outArrayLen;
 
-	return 1;
+	return 0;
 }
 
 EXPORT void DeleteDoubleArray(double* pointer)
