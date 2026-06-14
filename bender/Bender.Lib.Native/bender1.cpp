@@ -58,7 +58,7 @@ EXPORT int Solve1(
 
 					residAbsSum += abs(residual);
 					numResid++;
-					v[i, j] -= relaxationFactor * residual;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 				}
 			}
 		}
