@@ -11,10 +11,6 @@ namespace benderEXE
             int c = InteropClass.Add(2, 3);
 
 
-
-
-            return;
-
             string template = "[{Timestamp:HH:mm:ss.fff} {Level:u3}][{SourceContext}] {Message:lj}{NewLine}{Exception}";
 
             Log.Logger = new LoggerConfiguration()
