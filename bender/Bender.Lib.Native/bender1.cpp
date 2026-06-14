@@ -131,17 +131,17 @@ EXPORT int Solve1(
 			}
 		}
 
-		//j==0 Edge (but not corners)
+		//j==ny-1 Edge (but not corners)
 		for (int i = 1; i < nx - 1; i++)
 		{
-			int j = 0;
+			int j = ny-1;
 			if (TwoDRead(id, i, j, ny) == 0)
 			{
 				double neighborMean = oneOver3 *
 					(
 						TwoDRead(v, i - 1, j, ny)
 						+ TwoDRead(v, i + 1, j, ny)
-						+ TwoDRead(v, i, j + 1, ny)
+						+ TwoDRead(v, i, j - 1, ny)
 						);
 				double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
