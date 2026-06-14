@@ -53,7 +53,8 @@ EXPORT int Solve1(
 		{
 			for (int j = 1; j < ny - 1; j++)
 			{
-				if (TwoDRead(id, i, j, ny) == 0)
+				int centerCoord = i * ny + j;
+				if (id[centerCoord] == 0)
 				{
 					double neighborMean = 0.25 *
 						(
