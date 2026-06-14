@@ -22,6 +22,11 @@ double TwoDRead(uint16_t* arr, int i, int j, int ny)
 	return arr[i * ny + j];
 }
 
+void TwoDWrite(double* arr, int i, int j, int ny, double val)
+{
+	arr[i * ny + j] = val;
+}
+
 
 EXPORT int Solve1(
 	double* v,
