@@ -156,14 +156,14 @@ EXPORT int Solve1(
 		{
 			int i = 0;
 			int j = 0;
-			if (id[i, j] == 0)
+			if (TwoDRead(id, i, j, ny) == 0)
 			{
-				double neighborMean = 0.5 * (v[i + 1, j] + v[i, j + 1]);
-				double residual = v[i, j] - neighborMean;
+				double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j + 1, ny));
+				double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += Math.Abs(residual);
+				residAbsSum += abs(residual);
 				numResid++;
-				v[i, j] -= relaxationFactor * residual;
+				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 			}
 		}
 
