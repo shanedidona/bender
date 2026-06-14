@@ -167,7 +167,20 @@ EXPORT int Solve1(
 			}
 		}
 
+		//i==0; j==0
+		{
+			int i = 0;
+			int j = 0;
+			if (TwoDRead(id, i, j, ny) == 0)
+			{
+				double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j + 1, ny));
+				double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
+				residAbsSum += abs(residual);
+				numResid++;
+				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+			}
+		}
 
 
 
