@@ -22,9 +22,9 @@ double TwoDRead(uint16_t* arr, int i, int j, int ny)
 	return arr[i * ny + j];
 }
 
-void TwoDWrite(double* arr, int i, int j, int ny, double val)
+void TwoDModify(double* arr, int i, int j, int ny, double delta)
 {
-	arr[i * ny + j] = val;
+	arr[i * ny + j] += delta;
 }
 
 
