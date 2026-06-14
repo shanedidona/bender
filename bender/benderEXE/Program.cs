@@ -11,10 +11,6 @@ namespace benderEXE
             int c = InteropClass.Add(2, 3);
 
 
-
-
-            return;
-
             string template = "[{Timestamp:HH:mm:ss.fff} {Level:u3}][{SourceContext}] {Message:lj}{NewLine}{Exception}";
 
             Log.Logger = new LoggerConfiguration()
@@ -42,6 +38,24 @@ namespace benderEXE
 
             var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.8, 1E-9, 1_000_000_000);
 
+            ElectrostaticGrid2D electrostaticGrid2D2 = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+
+            var solve2Var = BenderMath.SolveField2(electrostaticGrid2D2, 1.8, 1E-9, 1_000_000_000);
+
+            double totalAbsDiff = 0;
+            double maxAbsDiff = 0;
+            for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
+            {
+                for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
+                {
+                    totalAbsDiff += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
+                    maxAbsDiff = Math.Max(maxAbsDiff, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]));
+                }
+            }
+
+            Serilog.Log.Information("totalAbsDiff = " + totalAbsDiff);
+            Serilog.Log.Information("maxAbsDiff = " + maxAbsDiff);
+
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
 
@@ -53,6 +67,8 @@ namespace benderEXE
                 );
 
             BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen, equipotentialDraw2DSpec).SaveImage(Path.Combine(resultsFolder, "1.png"));
+
+            Thread.Sleep(1000);
         }
 
         static void RelaxFactorExplore()
