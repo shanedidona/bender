@@ -11,6 +11,18 @@ EXPORT int Add(int a, int b)
 	return a + b;
 }
 
+
+double TwoDRead(double* arr, int i, int j, int ny)
+{
+	return arr[i * ny + j];
+}
+
+double TwoDRead(uint16_t* arr, int i, int j, int ny)
+{
+	return arr[i * ny + j];
+}
+
+
 EXPORT int Solve1(
 	double* v,
 	const uint16_t* id,
