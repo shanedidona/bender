@@ -48,17 +48,25 @@ namespace benderEXE
 
             double totalAbsDiff = 0;
             double maxAbsDiff = 0;
+            double totalAbsDiffCPP = 0;
+            double maxAbsDiffCPP = 0;
             for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
             {
                 for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
                 {
                     totalAbsDiff += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
                     maxAbsDiff = Math.Max(maxAbsDiff, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]));
+
+                    totalAbsDiffCPP += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
                 }
             }
 
             Serilog.Log.Information("totalAbsDiff = " + totalAbsDiff);
             Serilog.Log.Information("maxAbsDiff = " + maxAbsDiff);
+
+            Serilog.Log.Information("totalAbsDiffCPP = " + totalAbsDiffCPP);
+            Serilog.Log.Information("maxAbsDiffCPP = " + maxAbsDiffCPP);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
