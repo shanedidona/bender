@@ -23,21 +23,27 @@ EXPORT int Solve1(
 	int* outMeanAbsChangeArrayLen
 )
 {
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
+	double oneOver3 = 1.0 / 3.0;
 	std::vector<double> out1Vector;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 	out1Vector.push_back(2.3);
 
 
