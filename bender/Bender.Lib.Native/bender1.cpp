@@ -212,6 +212,8 @@ EXPORT int Solve1(
 			}
 		}
 
+		double meanAbsResid = residAbsSum / numResid;
+		out1Vector.push_back(meanAbsResid);
 
 
 
