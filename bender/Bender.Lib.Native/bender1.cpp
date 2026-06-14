@@ -17,7 +17,7 @@ double TwoDRead(double* arr, int i, int j, int ny)
 	return arr[i * ny + j];
 }
 
-double TwoDRead(uint16_t* arr, int i, int j, int ny)
+double TwoDRead(const uint16_t* arr, int i, int j, int ny)
 {
 	return arr[i * ny + j];
 }
