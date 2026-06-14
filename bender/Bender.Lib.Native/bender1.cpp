@@ -47,6 +47,8 @@ EXPORT int Solve1(
 	{
 		double residAbsSum = 0;
 		int numResid = 0;
+
+		//Middle
 		for (int i = 1; i < nx - 1; i++)
 		{
 			for (int j = 1; j < ny - 1; j++)
@@ -68,6 +70,11 @@ EXPORT int Solve1(
 				}
 			}
 		}
+
+
+
+
+
 
 
 
