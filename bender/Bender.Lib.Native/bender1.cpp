@@ -77,7 +77,12 @@ EXPORT int Solve1(
 			int i = 0;
 			if (TwoDRead(id, i, j, ny) == 0)
 			{
-				double neighborMean = oneOver3 * (v[i, j - 1] + v[i, j + 1] + v[i + 1, j]);
+				double neighborMean = oneOver3 *
+					(
+						TwoDRead(v, i + 1, j, ny)
+						+ TwoDRead(v, i, j - 1, ny)
+						+ TwoDRead(v, i, j + 1, ny)
+						);
 				double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 				residAbsSum += abs(residual);
