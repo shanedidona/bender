@@ -26,8 +26,15 @@ EXPORT int Solve1(
 	double oneOver3 = 1.0 / 3.0;
 	std::vector<double> out1Vector;
 
+	for (int tryI = 0; tryI < maxTries; tryI++)
+	{
 
 
+
+
+
+
+	}
 
 
 
