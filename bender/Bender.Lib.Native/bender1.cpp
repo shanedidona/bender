@@ -236,8 +236,6 @@ EXPORT int Solve1(
 
 
 
-	
-	out1Vector.push_back(2.3);
 
 
 
