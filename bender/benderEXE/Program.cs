@@ -174,6 +174,8 @@ namespace benderEXE
 
             ScottPlot.Plot plot = new ScottPlot.Plot();
             plot.Add.Scatter(xs, ys);
+            plot.XLabel("N (for NxN grid)");
+            plot.YLabel("omega_opt");
             plot.Save(savePath, 1920, 1080);
         }
     }
