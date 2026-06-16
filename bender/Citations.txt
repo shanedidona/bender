@@ -17,6 +17,17 @@ https://github.com/praeclarum/sqlite-net/wiki
 
 
 
+Shiming Yang, Matthias K. Gobbert,
+The optimal relaxation parameter for the SOR method applied to the Poisson equation in any space dimensions,
+Applied Mathematics Letters,
+Volume 22, Issue 3,
+2009,
+Pages 325-331,
+ISSN 0893-9659,
+https://doi.org/10.1016/j.aml.2008.03.028.
+(https://www.sciencedirect.com/science/article/pii/S0893965908001523)
+Abstract: The finite difference discretization of the Poisson equation with Dirichlet boundary conditions leads to a large, sparse system of linear equations for the solution values at the interior mesh points. This problem is a popular and useful model problem for performance comparisons of iterative methods for the solution of linear systems. To use the successive overrelaxation (SOR) method in these comparisons, a formula for the optimal value of its relaxation parameter is needed. In standard texts, this value is only available for the case of two space dimensions, even though the model problem is also instructive in higher dimensions. This note extends the derivation of the optimal relaxation parameter to any space dimension and confirms its validity by means of test calculations in three dimensions.
+Keywords: SOR method; Optimal relaxation parameter; Sparse linear systems; Poisson equation; Finite difference method
 
 
 

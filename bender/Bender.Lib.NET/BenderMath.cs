@@ -371,5 +371,13 @@ namespace Bender.Lib.NET
 
             return (out1Array, false);
         }
+    
+        public static double OptimalRelaxationParameter(int n1, int n2)
+        {
+            double nGeoMean = Math.Sqrt(1.0 * n1 * n2);
+
+            double h = 1.0 / (nGeoMean + 1.0);
+            return 2.0 / (1.0 + Math.Sin(Math.PI * h));
+        }
     }
 }
