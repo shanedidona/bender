@@ -8,23 +8,6 @@ namespace benderEXE
     {
         static void Main(string[] args)
         {
-            double[] xs = Enumerable.Range(4, 1000).Select(x => 1.0 * x).ToArray();
-            double[] ys = new double[xs.Length];
-            for (int i = 0; i < xs.Length; i++)
-            {
-                double h = 1.0 / (xs[i] + 1.0);
-                ys[i] = 2.0 / (1.0 + Math.Sin(Math.PI * h));
-            }
-
-            ScottPlot.Plot plot = new ScottPlot.Plot();
-            plot.Add.Scatter(xs, ys);
-            plot.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results", "omega.png"), 1920, 1080);
-
-
-
-
-            return;
-
             int c = InteropClass.Add(2, 3);
 
 
@@ -105,6 +88,8 @@ namespace benderEXE
 
             BenderMath.RenderMat(electrostaticGrid2D, voltageColorGen, equipotentialDraw2DSpec).SaveImage(Path.Combine(resultsFolder, "1.png"));
 
+            SaveOmegaGraph(Path.Combine(resultsFolder, "omega.png"));
+
             Thread.Sleep(1000);
         }
 
@@ -175,6 +160,21 @@ namespace benderEXE
 
                 dBFileManager1D1D.Add(relaxFactor, solve1Var.MeanAbsChangeArray.Length);
             }
+        }
+    
+        static void SaveOmegaGraph(string savePath)
+        {
+            double[] xs = Enumerable.Range(4, 1000).Select(x => 1.0 * x).ToArray();
+            double[] ys = new double[xs.Length];
+            for (int i = 0; i < xs.Length; i++)
+            {
+                double h = 1.0 / (xs[i] + 1.0);
+                ys[i] = 2.0 / (1.0 + Math.Sin(Math.PI * h));
+            }
+
+            ScottPlot.Plot plot = new ScottPlot.Plot();
+            plot.Add.Scatter(xs, ys);
+            plot.Save(savePath, 1920, 1080);
         }
     }
 }
