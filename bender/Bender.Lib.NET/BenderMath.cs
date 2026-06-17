@@ -379,5 +379,81 @@ namespace Bender.Lib.NET
             double h = 1.0 / (nGeoMean + 1.0);
             return 2.0 / (1.0 + Math.Sin(Math.PI * h));
         }
+
+        static (double v, ushort id) SmallDemag(double[] vs, ushort[] ids)
+        {
+            int numElectrode = 0;
+            foreach (ushort id in ids)
+            {
+                if (id != 0)
+                {
+                    numElectrode++;
+                }
+            }
+
+            if (numElectrode == 0)
+            {
+                //All Vacuum
+                double vSum = 0;
+                foreach (double v in vs)
+                {
+                    vSum += v;
+                }
+
+                return (vSum / vs.Length, 0);
+            }
+            else
+            {
+                double electrodeVSum = 0;
+                for (int i = 0; i < vs.Length; i++)
+                {
+                    if (ids[i] != 0)
+                    {
+                        electrodeVSum += vs[i];
+                    }
+                }
+
+                return (electrodeVSum / numElectrode, 1);
+            }
+        }
+
+        public static (double[,] VDemag, ushort[,] IDDemag)? Demag(double[,] v, ushort[,] id)
+        {
+            int nxOut = v.GetLength(0) / 2 + (v.GetLength(0) % 2);
+            int nyOut = v.GetLength(1) / 2 + (v.GetLength(1) % 2);
+
+            if (Math.Min(nxOut, nyOut) < 3) { return null; }
+
+            var vDemag = new double[nxOut, nyOut];
+            var idDemag = new ushort[nxOut, nyOut];
+
+            for (int iDemag = 0; iDemag < nxOut; iDemag++)
+            {
+                for (int jDemag = 0; jDemag < nyOut; jDemag++)
+                {
+                    var vList = new List<double>();
+                    var idList = new List<ushort>();
+
+                    for (int ir = 0; ir < 2; ir++)
+                    {
+                        for (int jr = 0; jr < 2; jr++)
+                        {
+                            int i = 2 * iDemag + ir;
+                            int j = 2 * jDemag + jr;
+
+                            if (i < v.GetLength(0) && j < v.GetLength(1))
+                            {
+                                vList.Add(v[i, j]);
+                                idList.Add(id[i, j]);
+                            }
+                        }
+                    }
+
+                    (vDemag[iDemag, jDemag], idDemag[iDemag, jDemag]) = SmallDemag(vList.ToArray(), idList.ToArray());
+                }
+            }
+
+            return (vDemag, idDemag);
+        }
     }
 }
