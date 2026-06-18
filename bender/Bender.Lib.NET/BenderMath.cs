@@ -516,7 +516,7 @@ namespace Bender.Lib.NET
                 }
             }
 
-            for (int i = grids.Count - 1; 0 < i; i--)
+            for (int i = grids.Count - 1; -1 < i; i--)
             {
                 double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
 
