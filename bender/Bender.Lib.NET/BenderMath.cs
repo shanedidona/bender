@@ -480,10 +480,7 @@ namespace Bender.Lib.NET
                 {
                     if (id[i, j] != 0)
                     {
-                        int iDemag = i / 2;
-                        int jDemag = j / 2;
-
-                        v[i, j] = vDemag[iDemag, jDemag];
+                        v[i, j] = vDemag[i / 2, j / 2];
                     }
                 }
             }
