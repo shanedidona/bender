@@ -93,6 +93,19 @@ namespace Bender.Lib.NET
             return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
         }
 
+        public static void SolveFieldMulti(
+                ElectrostaticGrid2D electrostaticGrid2D,
+                double meanAbsChangeStop,
+                int maxTries
+            )
+        {
+            Stopwatch sw1 = Stopwatch.StartNew();
+
+            Solve2DOneWayMultiGrid(electrostaticGrid2D.V, electrostaticGrid2D.ID, meanAbsChangeStop, maxTries);
+
+            Serilog.Log.Information("SolveFieldMulti took {timeMS} ms", sw1.ElapsedMilliseconds);
+        }
+
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStage(
                 double[,] v,
                 ushort[,] id,
@@ -454,6 +467,66 @@ namespace Bender.Lib.NET
             }
 
             return (vDemag, idDemag);
+        }
+
+        public static void OverwriteMagnify(
+                double[,] vDemag, ushort[,] idDemag,
+                double[,] v, ushort[,] id
+            )
+        {
+            for (int i = 0; i < v.GetLength(0); i++)
+            {
+                for (int j = 0; j < v.GetLength(1); j++)
+                {
+                    if (id[i, j] != 0)
+                    {
+                        int iDemag = i / 2;
+                        int jDemag = j / 2;
+
+                        v[i, j] = vDemag[iDemag, jDemag];
+                    }
+                }
+            }
+        }
+
+        //public static (
+          //      (double[] MeanAbsChangeArray, bool Finished)[],
+             //   int[] nxSizes,
+             //   int[] nySizes            )
+            public static void Solve2DOneWayMultiGrid(//TODO: return a solve object
+                double[,] v,
+                ushort[,] id,
+                double meanAbsChangeStop,
+                int maxTries
+            )
+        {
+            var grids = new List<(double[,] VArray, ushort[,] IDArray)>();
+            grids.Add((v, id));
+
+            while (true)
+            {
+                var possibleNewDemag = Demag(grids.Last().VArray, grids.Last().IDArray);
+                if (possibleNewDemag != null)
+                {
+                    grids.Add(possibleNewDemag.Value);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            for (int i = grids.Count - 1; 0 < i; i--)
+            {
+                double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
+
+                InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries);
+
+                if (i != 0)
+                {
+                    OverwriteMagnify(grids[i].VArray, grids[i].IDArray, grids[i - 1].VArray, grids[i - 1].IDArray);
+                }
+            }
         }
     }
 }
