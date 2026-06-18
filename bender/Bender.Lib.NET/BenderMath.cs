@@ -478,7 +478,7 @@ namespace Bender.Lib.NET
             {
                 for (int j = 0; j < v.GetLength(1); j++)
                 {
-                    if (id[i, j] != 0)
+                    if (id[i, j] == 0)
                     {
                         v[i, j] = vDemag[i / 2, j / 2];
                     }
