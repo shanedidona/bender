@@ -31,6 +31,17 @@ Keywords: SOR method; Optimal relaxation parameter; Sparse linear systems; Poiss
 
 
 
+@book{trottenberg2001multigrid,
+  title={Multigrid Methods},
+  author={Trottenberg, U. and Oosterlee, C.W. and Schuller, A.},
+  isbn={9780127010700},
+  lccn={00103940},
+  url={https://books.google.com/books?id=-og1wD-Nx_wC},
+  year={2001},
+  publisher={Elsevier Science}
+}
+
+
 
 
 
