@@ -47,7 +47,7 @@ namespace benderEXE
             var solveCPPVar = BenderMath.SolveFieldCPP(electrostaticGrid2DCPP, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2DMulti = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti, 1E-9, 1_000_000_000);
+            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti, 1E-12, 1_000_000_000);
 
             double totalAbsDiff = 0;
             double maxAbsDiff = 0;
