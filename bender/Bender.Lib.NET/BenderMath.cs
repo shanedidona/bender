@@ -93,6 +93,19 @@ namespace Bender.Lib.NET
             return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
         }
 
+        public static void SolveFieldMulti(
+                ElectrostaticGrid2D electrostaticGrid2D,
+                double meanAbsChangeStop,
+                int maxTries
+            )
+        {
+            Stopwatch sw1 = Stopwatch.StartNew();
+
+            Solve2DOneWayMultiGrid(electrostaticGrid2D.V, electrostaticGrid2D.ID, meanAbsChangeStop, maxTries);
+
+            Serilog.Log.Information("SolveFieldMulti took {timeMS} ms", sw1.ElapsedMilliseconds);
+        }
+
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStage(
                 double[,] v,
                 ushort[,] id,
@@ -378,6 +391,141 @@ namespace Bender.Lib.NET
 
             double h = 1.0 / (nGeoMean + 1.0);
             return 2.0 / (1.0 + Math.Sin(Math.PI * h));
+        }
+
+        static (double v, ushort id) SmallDemag(double[] vs, ushort[] ids)
+        {
+            int numElectrode = 0;
+            foreach (ushort id in ids)
+            {
+                if (id != 0)
+                {
+                    numElectrode++;
+                }
+            }
+
+            if (numElectrode == 0)
+            {
+                //All Vacuum
+                double vSum = 0;
+                foreach (double v in vs)
+                {
+                    vSum += v;
+                }
+
+                return (vSum / vs.Length, 0);
+            }
+            else
+            {
+                double electrodeVSum = 0;
+                for (int i = 0; i < vs.Length; i++)
+                {
+                    if (ids[i] != 0)
+                    {
+                        electrodeVSum += vs[i];
+                    }
+                }
+
+                return (electrodeVSum / numElectrode, 1);
+            }
+        }
+
+        public static (double[,] VDemag, ushort[,] IDDemag)? Demag(double[,] v, ushort[,] id)
+        {
+            int nxOut = v.GetLength(0) / 2 + (v.GetLength(0) % 2);
+            int nyOut = v.GetLength(1) / 2 + (v.GetLength(1) % 2);
+
+            if (Math.Min(nxOut, nyOut) < 3) { return null; }
+
+            var vDemag = new double[nxOut, nyOut];
+            var idDemag = new ushort[nxOut, nyOut];
+
+            for (int iDemag = 0; iDemag < nxOut; iDemag++)
+            {
+                for (int jDemag = 0; jDemag < nyOut; jDemag++)
+                {
+                    var vList = new List<double>();
+                    var idList = new List<ushort>();
+
+                    for (int ir = 0; ir < 2; ir++)
+                    {
+                        for (int jr = 0; jr < 2; jr++)
+                        {
+                            int i = 2 * iDemag + ir;
+                            int j = 2 * jDemag + jr;
+
+                            if (i < v.GetLength(0) && j < v.GetLength(1))
+                            {
+                                vList.Add(v[i, j]);
+                                idList.Add(id[i, j]);
+                            }
+                        }
+                    }
+
+                    (vDemag[iDemag, jDemag], idDemag[iDemag, jDemag]) = SmallDemag(vList.ToArray(), idList.ToArray());
+                }
+            }
+
+            return (vDemag, idDemag);
+        }
+
+        public static void OverwriteMagnify(
+                double[,] vDemag, ushort[,] idDemag,
+                double[,] v, ushort[,] id
+            )
+        {
+            for (int i = 0; i < v.GetLength(0); i++)
+            {
+                for (int j = 0; j < v.GetLength(1); j++)
+                {
+                    if (id[i, j] == 0)
+                    {
+                        v[i, j] = vDemag[i / 2, j / 2];
+                    }
+                }
+            }
+        }
+
+        //public static (
+          //      (double[] MeanAbsChangeArray, bool Finished)[],
+             //   int[] nxSizes,
+             //   int[] nySizes            )
+            public static void Solve2DOneWayMultiGrid(//TODO: return a solve object
+                double[,] v,
+                ushort[,] id,
+                double meanAbsChangeStop,
+                int maxTries
+            )
+        {
+            var grids = new List<(double[,] VArray, ushort[,] IDArray)>();
+            grids.Add((v, id));
+
+            while (true)
+            {
+                var possibleNewDemag = Demag(grids.Last().VArray, grids.Last().IDArray);
+                if (possibleNewDemag != null)
+                {
+                    grids.Add(possibleNewDemag.Value);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+
+
+            for (int i = grids.Count - 1; -1 < i; i--)
+            {
+                double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
+
+                Serilog.Log.Information(relaxationParameter + " " + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries).MeanAbsChangeArray.Length);
+
+                if (i != 0)
+                {
+                    OverwriteMagnify(grids[i].VArray, grids[i].IDArray, grids[i - 1].VArray, grids[i - 1].IDArray);
+                }
+            }
         }
     }
 }

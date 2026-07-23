@@ -46,12 +46,17 @@ namespace benderEXE
 
             var solveCPPVar = BenderMath.SolveFieldCPP(electrostaticGrid2DCPP, 1.8, 1E-9, 1_000_000_000);
 
+            ElectrostaticGrid2D electrostaticGrid2DMulti = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti, 1E-12, 1_000_000_000);
+
             double totalAbsDiff = 0;
             double maxAbsDiff = 0;
             double totalAbsDiffCPP = 0;
             double maxAbsDiffCPP = 0;
             double totalAbsDiffCPP2 = 0;
             double maxAbsDiffCPP2 = 0;
+            double totalAbsDiffMulti = 0;
+            double maxAbsDiffMulti = 0;
             for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
             {
                 for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
@@ -64,6 +69,9 @@ namespace benderEXE
 
                     totalAbsDiffCPP2 += Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
                     maxAbsDiffCPP2 = Math.Max(maxAbsDiffCPP2, Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
+
+                    totalAbsDiffMulti += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti.V[i, j]);
+                    maxAbsDiffMulti = Math.Max(maxAbsDiffMulti, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti.V[i, j]));
                 }
             }
 
@@ -75,6 +83,9 @@ namespace benderEXE
 
             Serilog.Log.Information("totalAbsDiffCPP2 = " + totalAbsDiffCPP2);
             Serilog.Log.Information("maxAbsDiffCPP2 = " + maxAbsDiffCPP2);
+
+            Serilog.Log.Information("totalAbsDiffMulti = " + totalAbsDiffMulti);
+            Serilog.Log.Information("maxAbsDiffMulti = " + maxAbsDiffMulti);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);
