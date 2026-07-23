@@ -519,7 +519,7 @@ namespace Bender.Lib.NET
             {
                 double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
 
-                Serilog.Log.Information("" + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries).MeanAbsChangeArray.Length);
+                Serilog.Log.Information(relaxationParameter + " " + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries).MeanAbsChangeArray.Length);
 
                 if (i != 0)
                 {
