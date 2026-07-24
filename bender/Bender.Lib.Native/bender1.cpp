@@ -231,7 +231,7 @@ EXPORT int Solve1(
 	return 0;
 }
 
-EXPORT int Solve1(
+EXPORT int JacobiRBSingleStage(
 	double* v,
 	const uint16_t* id,
 	int nx,
@@ -250,6 +250,12 @@ EXPORT int Solve1(
 	{
 		double residAbsSum = 0;
 		int numResid = 0;
+
+
+
+
+
+
 
 		//Middle
 		for (int i = 1; i < nx - 1; i++)
