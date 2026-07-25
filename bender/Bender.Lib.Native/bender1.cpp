@@ -251,6 +251,13 @@ EXPORT int JacobiRBSingleStage(
 		double residAbsSum = 0;
 		int numResid = 0;
 
+		for (int modDesired = 0;modDesired < 2;modDesired++)
+		{
+
+
+
+
+		}
 
 
 
