@@ -254,22 +254,18 @@ EXPORT int JacobiRBSingleStage(
 		std::vector<bool> trueFalse = { true, false };
 		for (bool evenMod : trueFalse)
 		{
-
-
-
-
-
-
-
-
-
-
-
 			//Middle
 			for (int i = 1; i < nx - 1; i++)
 			{
 				for (int j = 1; j < ny - 1; j++)
 				{
+
+
+
+
+
+
+
 					int centerCoord = i * ny + j;
 					if (id[centerCoord] == 0)
 					{
