@@ -307,20 +307,20 @@ EXPORT int JacobiRBSingleStage(
 			for (int j = 1; j < ny - 1; j++)
 			{
 				int i = nx - 1;
-				if (TwoDRead(id, i, j, ny) == 0)
-				{
-					double neighborMean = oneOver3 *
-						(
-							TwoDRead(v, i - 1, j, ny)
-							+ TwoDRead(v, i, j - 1, ny)
-							+ TwoDRead(v, i, j + 1, ny)
-							);
-					double residual = TwoDRead(v, i, j, ny) - neighborMean;
+					if (TwoDRead(id, i, j, ny) == 0)
+					{
+						double neighborMean = oneOver3 *
+							(
+								TwoDRead(v, i - 1, j, ny)
+								+ TwoDRead(v, i, j - 1, ny)
+								+ TwoDRead(v, i, j + 1, ny)
+								);
+						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-					residAbsSum += abs(residual);
-					numResid++;
-					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
-				}
+						residAbsSum += abs(residual);
+						numResid++;
+						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					}
 			}
 
 		}
