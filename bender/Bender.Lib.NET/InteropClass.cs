@@ -21,7 +21,7 @@ namespace Bender.Lib.NET.Interop
                 int* outMeanAbsChangeArrayLen);
 
         [DllImport("Bender.Lib.Native", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Solve1(
+        public static extern int JacobiRBSingleStage(
                 double* v,
                 ushort* id,
                 int nx,
