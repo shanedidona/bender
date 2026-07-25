@@ -21,6 +21,18 @@ namespace Bender.Lib.NET.Interop
                 int* outMeanAbsChangeArrayLen);
 
         [DllImport("Bender.Lib.Native", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Solve1(
+                double* v,
+                ushort* id,
+                int nx,
+                int ny,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries,
+                double** outMeanAbsChangeArray,
+                int* outMeanAbsChangeArrayLen);
+
+        [DllImport("Bender.Lib.Native", CallingConvention = CallingConvention.Cdecl)]
         static extern void DeleteDoubleArray(double* pointer);
 
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStageCPP(
