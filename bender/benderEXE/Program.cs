@@ -35,15 +35,12 @@ namespace benderEXE
             voltagesAndRegions.Add((-0.5, new Rectangle(0.5, 0.5, 0.6, 0.7)));
 
             ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2D2 = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solve2Var = BenderMath.SolveField2(electrostaticGrid2D2, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2DCPP = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solveCPPVar = BenderMath.SolveFieldCPP(electrostaticGrid2DCPP, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2DMulti = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
