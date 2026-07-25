@@ -40,7 +40,8 @@ namespace Bender.Lib.NET.Interop
                 ushort[,] id,
                 double relaxationFactor,
                 double meanAbsChangeStop,
-                int maxTries
+                int maxTries,
+                bool jacobiRB
             )
         {
             Stopwatch sw1 = Stopwatch.StartNew();
@@ -57,7 +58,14 @@ namespace Bender.Lib.NET.Interop
             {
                 fixed (ushort* pid = id)
                 {
-                    finishedInt = Solve1(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    if (jacobiRB)
+                    {
+                        finishedInt = JacobiRBSingleStage(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    }
+                    else
+                    {
+                        finishedInt = Solve1(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    }
                 }
             }
 
