@@ -64,15 +64,13 @@ namespace benderEXE
                     totalAbsDiff += absDiff;
                     maxAbsDiff = Math.Max(maxAbsDiff, absDiff);
 
+                    absDiff = Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    totalAbsDiffCPP += absDiff;
+                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, absDiff);
 
 
 
 
-
-
-
-                    totalAbsDiffCPP += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
-                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
 
                     totalAbsDiffCPP2 += Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
                     maxAbsDiffCPP2 = Math.Max(maxAbsDiffCPP2, Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
