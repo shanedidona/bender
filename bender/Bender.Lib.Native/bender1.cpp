@@ -259,6 +259,13 @@ EXPORT int JacobiRBSingleStage(
 			{
 				for (int j = 1; j < ny - 1; j++)
 				{
+					if (((i - j) % 2 == 0) == evenMod)
+					{
+
+
+
+
+					}
 
 
 
