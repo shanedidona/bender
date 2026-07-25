@@ -257,7 +257,7 @@ EXPORT int JacobiRBSingleStage(
 
 
 
-		}
+
 
 
 
@@ -281,6 +281,8 @@ EXPORT int JacobiRBSingleStage(
 					}
 				}
 			}
+
+		}
 
 			//i==0 Edge (but not corners)
 			for (int j = 1; j < ny - 1; j++)
