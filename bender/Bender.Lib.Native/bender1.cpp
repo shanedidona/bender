@@ -369,7 +369,7 @@ EXPORT int JacobiRBSingleStage(
 				}
 			}
 
-		}
+
 
 			//Corners
 			//i==0; j==0
@@ -431,6 +431,8 @@ EXPORT int JacobiRBSingleStage(
 					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 				}
 			}
+
+		}
 
 		double meanAbsResid = residAbsSum / numResid;
 		out1Vector.push_back(meanAbsResid);
