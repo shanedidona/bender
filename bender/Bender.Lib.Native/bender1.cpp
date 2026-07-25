@@ -298,15 +298,12 @@ EXPORT int JacobiRBSingleStage(
 				}
 			}
 
-
-
-
-
-
 			//i==nx-1 Edge (but not corners)
 			for (int j = 1; j < ny - 1; j++)
 			{
 				int i = nx - 1;
+				if (((i - j) % 2 == 0) == evenMod)
+				{
 					if (TwoDRead(id, i, j, ny) == 0)
 					{
 						double neighborMean = oneOver3 *
@@ -321,6 +318,7 @@ EXPORT int JacobiRBSingleStage(
 						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
+				}
 			}
 
 		}
