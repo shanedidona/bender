@@ -275,7 +275,7 @@ EXPORT int JacobiRBSingleStage(
 				}
 			}
 
-		}
+
 
 			//i==0 Edge (but not corners)
 			for (int j = 1; j < ny - 1; j++)
@@ -296,6 +296,11 @@ EXPORT int JacobiRBSingleStage(
 					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 				}
 			}
+
+
+		}
+
+
 
 			//i==nx-1 Edge (but not corners)
 			for (int j = 1; j < ny - 1; j++)
