@@ -93,14 +93,14 @@ namespace Bender.Lib.NET
             return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
         }
 
-        public static (double[] MeanAbsChangeArray, bool Finished) SolveFieldCPP(
+        public static (double[] MeanAbsChangeArray, bool Finished) SolveFieldCPPJacobiRB(
                 ElectrostaticGrid2D electrostaticGrid2D,
                 double relaxationFactor,
                 double meanAbsChangeStop,
                 int maxTries
             )//TODO:  this will be slow and replaced with a version that does demagnified versions first
         {
-            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
+            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries, true);
         }
 
         public static void SolveFieldMulti(
