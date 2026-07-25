@@ -261,27 +261,16 @@ EXPORT int JacobiRBSingleStage(
 				{
 					if (((i - j) % 2 == 0) == evenMod)
 					{
+						int centerCoord = i * ny + j;
+						if (id[centerCoord] == 0)
+						{
+							double neighborMean = 0.25 * (v[centerCoord - 1] + v[centerCoord + 1] + v[centerCoord - ny] + v[centerCoord + ny]);
+							double residual = v[centerCoord] - neighborMean;
 
-
-
-
-					}
-
-
-
-
-
-
-
-					int centerCoord = i * ny + j;
-					if (id[centerCoord] == 0)
-					{
-						double neighborMean = 0.25 * (v[centerCoord - 1] + v[centerCoord + 1] + v[centerCoord - ny] + v[centerCoord + ny]);
-						double residual = v[centerCoord] - neighborMean;
-
-						residAbsSum += abs(residual);
-						numResid++;
-						v[centerCoord] -= relaxationFactor * residual;
+							residAbsSum += abs(residual);
+							numResid++;
+							v[centerCoord] -= relaxationFactor * residual;
+						}
 					}
 				}
 			}
