@@ -264,164 +264,164 @@ EXPORT int JacobiRBSingleStage(
 
 
 
-		//Middle
-		for (int i = 1; i < nx - 1; i++)
-		{
+			//Middle
+			for (int i = 1; i < nx - 1; i++)
+			{
+				for (int j = 1; j < ny - 1; j++)
+				{
+					int centerCoord = i * ny + j;
+					if (id[centerCoord] == 0)
+					{
+						double neighborMean = 0.25 * (v[centerCoord - 1] + v[centerCoord + 1] + v[centerCoord - ny] + v[centerCoord + ny]);
+						double residual = v[centerCoord] - neighborMean;
+
+						residAbsSum += abs(residual);
+						numResid++;
+						v[centerCoord] -= relaxationFactor * residual;
+					}
+				}
+			}
+
+			//i==0 Edge (but not corners)
 			for (int j = 1; j < ny - 1; j++)
 			{
-				int centerCoord = i * ny + j;
-				if (id[centerCoord] == 0)
+				int i = 0;
+				if (TwoDRead(id, i, j, ny) == 0)
 				{
-					double neighborMean = 0.25 * (v[centerCoord - 1] + v[centerCoord + 1] + v[centerCoord - ny] + v[centerCoord + ny]);
-					double residual = v[centerCoord] - neighborMean;
+					double neighborMean = oneOver3 *
+						(
+							TwoDRead(v, i + 1, j, ny)
+							+ TwoDRead(v, i, j - 1, ny)
+							+ TwoDRead(v, i, j + 1, ny)
+							);
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 					residAbsSum += abs(residual);
 					numResid++;
-					v[centerCoord] -= relaxationFactor * residual;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 				}
 			}
-		}
 
-		//i==0 Edge (but not corners)
-		for (int j = 1; j < ny - 1; j++)
-		{
-			int i = 0;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//i==nx-1 Edge (but not corners)
+			for (int j = 1; j < ny - 1; j++)
 			{
-				double neighborMean = oneOver3 *
-					(
-						TwoDRead(v, i + 1, j, ny)
-						+ TwoDRead(v, i, j - 1, ny)
-						+ TwoDRead(v, i, j + 1, ny)
-						);
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int i = nx - 1;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = oneOver3 *
+						(
+							TwoDRead(v, i - 1, j, ny)
+							+ TwoDRead(v, i, j - 1, ny)
+							+ TwoDRead(v, i, j + 1, ny)
+							);
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//i==nx-1 Edge (but not corners)
-		for (int j = 1; j < ny - 1; j++)
-		{
-			int i = nx - 1;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//j==0 Edge (but not corners)
+			for (int i = 1; i < nx - 1; i++)
 			{
-				double neighborMean = oneOver3 *
-					(
-						TwoDRead(v, i - 1, j, ny)
-						+ TwoDRead(v, i, j - 1, ny)
-						+ TwoDRead(v, i, j + 1, ny)
-						);
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int j = 0;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = oneOver3 *
+						(
+							TwoDRead(v, i - 1, j, ny)
+							+ TwoDRead(v, i + 1, j, ny)
+							+ TwoDRead(v, i, j + 1, ny)
+							);
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//j==0 Edge (but not corners)
-		for (int i = 1; i < nx - 1; i++)
-		{
-			int j = 0;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//j==ny-1 Edge (but not corners)
+			for (int i = 1; i < nx - 1; i++)
 			{
-				double neighborMean = oneOver3 *
-					(
-						TwoDRead(v, i - 1, j, ny)
-						+ TwoDRead(v, i + 1, j, ny)
-						+ TwoDRead(v, i, j + 1, ny)
-						);
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int j = ny - 1;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = oneOver3 *
+						(
+							TwoDRead(v, i - 1, j, ny)
+							+ TwoDRead(v, i + 1, j, ny)
+							+ TwoDRead(v, i, j - 1, ny)
+							);
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//j==ny-1 Edge (but not corners)
-		for (int i = 1; i < nx - 1; i++)
-		{
-			int j = ny - 1;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//Corners
+			//i==0; j==0
 			{
-				double neighborMean = oneOver3 *
-					(
-						TwoDRead(v, i - 1, j, ny)
-						+ TwoDRead(v, i + 1, j, ny)
-						+ TwoDRead(v, i, j - 1, ny)
-						);
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int i = 0;
+				int j = 0;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j + 1, ny));
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//Corners
-		//i==0; j==0
-		{
-			int i = 0;
-			int j = 0;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//i==nx-1; j==0
 			{
-				double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j + 1, ny));
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int i = nx - 1;
+				int j = 0;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = 0.5 * (TwoDRead(v, i - 1, j, ny) + TwoDRead(v, i, j + 1, ny));
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//i==nx-1; j==0
-		{
-			int i = nx - 1;
-			int j = 0;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//i==0; j==ny-1
 			{
-				double neighborMean = 0.5 * (TwoDRead(v, i - 1, j, ny) + TwoDRead(v, i, j + 1, ny));
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int i = 0;
+				int j = ny - 1;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j - 1, ny));
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
 
-		//i==0; j==ny-1
-		{
-			int i = 0;
-			int j = ny - 1;
-			if (TwoDRead(id, i, j, ny) == 0)
+			//i==nx-1; j==ny-1
 			{
-				double neighborMean = 0.5 * (TwoDRead(v, i + 1, j, ny) + TwoDRead(v, i, j - 1, ny));
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
+				int i = nx - 1;
+				int j = ny - 1;
+				if (TwoDRead(id, i, j, ny) == 0)
+				{
+					double neighborMean = 0.5 * (TwoDRead(v, i - 1, j, ny) + TwoDRead(v, i, j - 1, ny));
+					double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+					residAbsSum += abs(residual);
+					numResid++;
+					TwoDModify(v, i, j, ny, -relaxationFactor * residual);
+				}
 			}
-		}
-
-		//i==nx-1; j==ny-1
-		{
-			int i = nx - 1;
-			int j = ny - 1;
-			if (TwoDRead(id, i, j, ny) == 0)
-			{
-				double neighborMean = 0.5 * (TwoDRead(v, i - 1, j, ny) + TwoDRead(v, i, j - 1, ny));
-				double residual = TwoDRead(v, i, j, ny) - neighborMean;
-
-				residAbsSum += abs(residual);
-				numResid++;
-				TwoDModify(v, i, j, ny, -relaxationFactor * residual);
-			}
-		}
 
 		double meanAbsResid = residAbsSum / numResid;
 		out1Vector.push_back(meanAbsResid);
