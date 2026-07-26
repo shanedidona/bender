@@ -246,12 +246,13 @@ EXPORT int JacobiRBSingleStage(
 	double oneOver3 = 1.0 / 3.0;
 	std::vector<double> out1Vector;
 
+	std::vector<bool> trueFalse = { true, false };
+
 	for (int tryI = 0; tryI < maxTries; tryI++)
 	{
 		double residAbsSum = 0;
 		int numResid = 0;
 
-		std::vector<bool> trueFalse = { true, false };
 		for (bool evenMod : trueFalse)
 		{
 			//Middle
