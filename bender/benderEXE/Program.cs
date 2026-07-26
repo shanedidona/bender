@@ -35,19 +35,19 @@ namespace benderEXE
             voltagesAndRegions.Add((-0.5, new Rectangle(0.5, 0.5, 0.6, 0.7)));
 
             ElectrostaticGrid2D electrostaticGrid2D = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solve1Var = BenderMath.SolveField(electrostaticGrid2D, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2D2 = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solve2Var = BenderMath.SolveField2(electrostaticGrid2D2, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2DCPP = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-
             var solveCPPVar = BenderMath.SolveFieldCPP(electrostaticGrid2DCPP, 1.8, 1E-9, 1_000_000_000);
 
             ElectrostaticGrid2D electrostaticGrid2DMulti = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
-            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti, 1E-12, 1_000_000_000);
+            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti, 1E-12, 1_000_000_000, false);
+
+            ElectrostaticGrid2D electrostaticGrid2DMulti2 = ElectrostaticGrid2DFactory.Gen1(xMin, yMin, nx, ny, pixelSize, voltagesAndRegions.ToArray());
+            BenderMath.SolveFieldMulti(electrostaticGrid2DMulti2, 1E-12, 1_000_000_000, true);
 
             double totalAbsDiff = 0;
             double maxAbsDiff = 0;
@@ -57,21 +57,39 @@ namespace benderEXE
             double maxAbsDiffCPP2 = 0;
             double totalAbsDiffMulti = 0;
             double maxAbsDiffMulti = 0;
+            double totalAbsDiffMulti2 = 0;
+            double maxAbsDiffMulti2 = 0;
+            double totalAbsDiffMultiMulti = 0;
+            double maxAbsDiffMultiMulti = 0;
             for (int i = 0; i < electrostaticGrid2D.V.GetLength(0); i++)
             {
                 for (int j = 0; j < electrostaticGrid2D.V.GetLength(1); j++)
                 {
-                    totalAbsDiff += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
-                    maxAbsDiff = Math.Max(maxAbsDiff, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]));
+                    double absDiff;
 
-                    totalAbsDiffCPP += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
-                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
+                    absDiff = Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2D2.V[i, j]);
+                    totalAbsDiff += absDiff;
+                    maxAbsDiff = Math.Max(maxAbsDiff, absDiff);
 
-                    totalAbsDiffCPP2 += Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
-                    maxAbsDiffCPP2 = Math.Max(maxAbsDiffCPP2, Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]));
+                    absDiff = Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    totalAbsDiffCPP += absDiff;
+                    maxAbsDiffCPP = Math.Max(maxAbsDiffCPP, absDiff);
 
-                    totalAbsDiffMulti += Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti.V[i, j]);
-                    maxAbsDiffMulti = Math.Max(maxAbsDiffMulti, Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti.V[i, j]));
+                    absDiff = Math.Abs(electrostaticGrid2D2.V[i, j] - electrostaticGrid2DCPP.V[i, j]);
+                    totalAbsDiffCPP2 += absDiff;
+                    maxAbsDiffCPP2 = Math.Max(maxAbsDiffCPP2, absDiff);
+
+                    absDiff = Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti.V[i, j]);
+                    totalAbsDiffMulti += absDiff;
+                    maxAbsDiffMulti = Math.Max(maxAbsDiffMulti, absDiff);
+
+                    absDiff = Math.Abs(electrostaticGrid2D.V[i, j] - electrostaticGrid2DMulti2.V[i, j]);
+                    totalAbsDiffMulti2 += absDiff;
+                    maxAbsDiffMulti2 = Math.Max(maxAbsDiffMulti2, absDiff);
+
+                    absDiff = Math.Abs(electrostaticGrid2DMulti.V[i, j] - electrostaticGrid2DMulti2.V[i, j]);
+                    totalAbsDiffMultiMulti += absDiff;
+                    maxAbsDiffMultiMulti = Math.Max(maxAbsDiffMultiMulti, absDiff);
                 }
             }
 
@@ -86,6 +104,12 @@ namespace benderEXE
 
             Serilog.Log.Information("totalAbsDiffMulti = " + totalAbsDiffMulti);
             Serilog.Log.Information("maxAbsDiffMulti = " + maxAbsDiffMulti);
+
+            Serilog.Log.Information("totalAbsDiffMulti2 = " + totalAbsDiffMulti2);
+            Serilog.Log.Information("maxAbsDiffMulti2 = " + maxAbsDiffMulti2);
+
+            Serilog.Log.Information("totalAbsDiffMultiMulti = " + totalAbsDiffMultiMulti);
+            Serilog.Log.Information("maxAbsDiffMultiMulti = " + maxAbsDiffMultiMulti);
 
             string resultsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bender", "Results");
             Directory.CreateDirectory(resultsFolder);

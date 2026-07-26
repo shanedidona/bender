@@ -21,6 +21,18 @@ namespace Bender.Lib.NET.Interop
                 int* outMeanAbsChangeArrayLen);
 
         [DllImport("Bender.Lib.Native", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int JacobiRBSingleStage(
+                double* v,
+                ushort* id,
+                int nx,
+                int ny,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries,
+                double** outMeanAbsChangeArray,
+                int* outMeanAbsChangeArrayLen);
+
+        [DllImport("Bender.Lib.Native", CallingConvention = CallingConvention.Cdecl)]
         static extern void DeleteDoubleArray(double* pointer);
 
         public static (double[] MeanAbsChangeArray, bool Finished) Solve2DFieldSingleStageCPP(
@@ -28,7 +40,8 @@ namespace Bender.Lib.NET.Interop
                 ushort[,] id,
                 double relaxationFactor,
                 double meanAbsChangeStop,
-                int maxTries
+                int maxTries,
+                bool jacobiRB
             )
         {
             Stopwatch sw1 = Stopwatch.StartNew();
@@ -45,7 +58,14 @@ namespace Bender.Lib.NET.Interop
             {
                 fixed (ushort* pid = id)
                 {
-                    finishedInt = Solve1(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    if (jacobiRB)
+                    {
+                        finishedInt = JacobiRBSingleStage(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    }
+                    else
+                    {
+                        finishedInt = Solve1(pv, pid, nx, ny, relaxationFactor, meanAbsChangeStop, maxTries, &meanAbsChangeArrayPtr, &meanAbsChangeArrayLen);
+                    }
                 }
             }
 

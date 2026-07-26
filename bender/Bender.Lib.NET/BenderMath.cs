@@ -90,18 +90,29 @@ namespace Bender.Lib.NET
                 int maxTries
             )//TODO:  this will be slow and replaced with a version that does demagnified versions first
         {
-            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries);
+            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries, false);
+        }
+
+        public static (double[] MeanAbsChangeArray, bool Finished) SolveFieldCPPJacobiRB(
+                ElectrostaticGrid2D electrostaticGrid2D,
+                double relaxationFactor,
+                double meanAbsChangeStop,
+                int maxTries
+            )//TODO:  this will be slow and replaced with a version that does demagnified versions first
+        {
+            return InteropClass.Solve2DFieldSingleStageCPP(electrostaticGrid2D.V, electrostaticGrid2D.ID, relaxationFactor, meanAbsChangeStop, maxTries, true);
         }
 
         public static void SolveFieldMulti(
                 ElectrostaticGrid2D electrostaticGrid2D,
                 double meanAbsChangeStop,
-                int maxTries
+                int maxTries,
+                bool jacobiRB
             )
         {
             Stopwatch sw1 = Stopwatch.StartNew();
 
-            Solve2DOneWayMultiGrid(electrostaticGrid2D.V, electrostaticGrid2D.ID, meanAbsChangeStop, maxTries);
+            Solve2DOneWayMultiGrid(electrostaticGrid2D.V, electrostaticGrid2D.ID, meanAbsChangeStop, maxTries, jacobiRB);
 
             Serilog.Log.Information("SolveFieldMulti took {timeMS} ms", sw1.ElapsedMilliseconds);
         }
@@ -494,7 +505,8 @@ namespace Bender.Lib.NET
                 double[,] v,
                 ushort[,] id,
                 double meanAbsChangeStop,
-                int maxTries
+                int maxTries,
+                bool jacobiRB
             )
         {
             var grids = new List<(double[,] VArray, ushort[,] IDArray)>();
@@ -519,7 +531,7 @@ namespace Bender.Lib.NET
             {
                 double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
 
-                Serilog.Log.Information(relaxationParameter + " " + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries).MeanAbsChangeArray.Length);
+                Serilog.Log.Information(relaxationParameter + " " + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries,jacobiRB).MeanAbsChangeArray.Length);
 
                 if (i != 0)
                 {
