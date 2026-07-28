@@ -248,10 +248,18 @@ EXPORT int JacobiRBSingleStage(
 
 	std::vector<bool> trueFalse = { true, false };
 
+	int numResid = 0;
+	for (int i = 0; i < nx * ny; i++)
+	{
+		if (id[i] == 0)
+		{
+			numResid++;
+		}
+	}
+
 	for (int tryI = 0; tryI < maxTries; tryI++)
 	{
 		double residAbsSum = 0;
-		int numResid = 0;
 
 		for (bool evenMod : trueFalse)
 		{
@@ -269,7 +277,6 @@ EXPORT int JacobiRBSingleStage(
 							double residual = v[centerCoord] - neighborMean;
 
 							residAbsSum += abs(residual);
-							numResid++;
 							v[centerCoord] -= relaxationFactor * residual;
 						}
 					}
@@ -293,7 +300,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -316,7 +322,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -339,7 +344,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -364,7 +368,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -385,7 +388,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -403,7 +405,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -421,7 +422,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
@@ -439,7 +439,6 @@ EXPORT int JacobiRBSingleStage(
 						double residual = TwoDRead(v, i, j, ny) - neighborMean;
 
 						residAbsSum += abs(residual);
-						numResid++;
 						TwoDModify(v, i, j, ny, -relaxationFactor * residual);
 					}
 				}
