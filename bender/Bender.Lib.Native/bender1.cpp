@@ -265,7 +265,7 @@ EXPORT int JacobiRBSingleStage(
 		*outMeanAbsChangeArray = outArray;
 		*outMeanAbsChangeArrayLen = outArrayLen;
 
-		return 0;
+		return 1;
 	}
 
 	for (int tryI = 0; tryI < maxTries; tryI++)
