@@ -543,12 +543,14 @@ namespace Bender.Lib.NET
         public static void Solve2DVCycleMultiGrid(//TODO: return a solve object
                 double[,] v,
                 ushort[,] id,
-                double meanAbsChangeStop,
-                int maxTries,
-                bool jacobiRB
+                bool jacobiRB,
+
+                double mostCoarseMeanAbsChangeStop = 1E-12,
+                int mostCoarseMaxTries = 1_000_000
+
             )
         {
-            var grids = new List<(double[,] VArray, ushort[,] IDArray)>();
+            var grids = new List<(double[,] VArray, ushort[,] IDArray)>();//Note that these go from fine to course.
             grids.Add((v, id));
 
             while (true)
@@ -564,8 +566,15 @@ namespace Bender.Lib.NET
                 }
             }
 
-
-
+            //We optimize the coursest one to very close to perfect.
+            InteropClass.Solve2DFieldSingleStageCPP(
+                    grids.Last().VArray,
+                    grids.Last().IDArray,
+                    OptimalRelaxationParameter(grids.Last().VArray.GetLength(0), grids.Last().VArray.GetLength(1)),
+                    mostCoarseMeanAbsChangeStop,
+                    mostCoarseMaxTries,
+                    jacobiRB
+                );
 
 
 
