@@ -540,7 +540,7 @@ namespace Bender.Lib.NET
             }
         }
 
-        public static void Solve2DOneWayMultiGrid(//TODO: return a solve object
+        public static void Solve2DVCycleMultiGrid(//TODO: return a solve object
                 double[,] v,
                 ushort[,] id,
                 double meanAbsChangeStop,
