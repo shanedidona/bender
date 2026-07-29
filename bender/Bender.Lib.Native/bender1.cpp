@@ -12,17 +12,17 @@ EXPORT int Add(int a, int b)
 }
 
 
-double TwoDRead(double* arr, int i, int j, int ny)
+static double TwoDRead(double* arr, int i, int j, int ny)
 {
 	return arr[i * ny + j];
 }
 
-uint16_t TwoDRead(const uint16_t* arr, int i, int j, int ny)
+static uint16_t TwoDRead(const uint16_t* arr, int i, int j, int ny)
 {
 	return arr[i * ny + j];
 }
 
-void TwoDModify(double* arr, int i, int j, int ny, double delta)
+static void TwoDModify(double* arr, int i, int j, int ny, double delta)
 {
 	arr[i * ny + j] += delta;
 }
