@@ -12,17 +12,17 @@ EXPORT int Add(int a, int b)
 }
 
 
-double TwoDRead(double* arr, int i, int j, int ny)
+static double TwoDRead(double* arr, int i, int j, int ny)
 {
 	return arr[i * ny + j];
 }
 
-uint16_t TwoDRead(const uint16_t* arr, int i, int j, int ny)
+static uint16_t TwoDRead(const uint16_t* arr, int i, int j, int ny)
 {
 	return arr[i * ny + j];
 }
 
-void TwoDModify(double* arr, int i, int j, int ny, double delta)
+static void TwoDModify(double* arr, int i, int j, int ny, double delta)
 {
 	arr[i * ny + j] += delta;
 }
@@ -255,6 +255,17 @@ EXPORT int JacobiRBSingleStage(
 		{
 			numResid++;
 		}
+	}
+
+	if (numResid == 0)
+	{
+		int outArrayLen = out1Vector.size();
+		double* outArray = new double[outArrayLen];
+		std::copy(out1Vector.begin(), out1Vector.end(), outArray);
+		*outMeanAbsChangeArray = outArray;
+		*outMeanAbsChangeArrayLen = outArrayLen;
+
+		return 1;
 	}
 
 	for (int tryI = 0; tryI < maxTries; tryI++)
