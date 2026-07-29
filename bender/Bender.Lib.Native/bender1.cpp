@@ -257,6 +257,11 @@ EXPORT int JacobiRBSingleStage(
 		}
 	}
 
+	if (numResid == 0)
+	{
+		goto end1;
+	}
+
 	for (int tryI = 0; tryI < maxTries; tryI++)
 	{
 		double residAbsSum = 0;
@@ -461,6 +466,7 @@ EXPORT int JacobiRBSingleStage(
 		}
 	}
 
+	end1:
 	int outArrayLen = out1Vector.size();
 	double* outArray = new double[outArrayLen];
 	std::copy(out1Vector.begin(), out1Vector.end(), outArray);
