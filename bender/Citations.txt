@@ -42,6 +42,12 @@ Keywords: SOR method; Optimal relaxation parameter; Sparse linear systems; Poiss
 }
 
 
+https://amath.colorado.edu/~stevem/
+https://amath.colorado.edu/~stevem/courses.html
+https://amath.colorado.edu/~stevem/appm6640/
+https://amath.colorado.edu/~stevem/appm6640/tutorial_with_corrections.pdf
+
+
 
 
 
