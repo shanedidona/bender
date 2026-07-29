@@ -539,5 +539,45 @@ namespace Bender.Lib.NET
                 }
             }
         }
+
+        public static void Solve2DOneWayMultiGrid(//TODO: return a solve object
+                double[,] v,
+                ushort[,] id,
+                double meanAbsChangeStop,
+                int maxTries,
+                bool jacobiRB
+            )
+        {
+            var grids = new List<(double[,] VArray, ushort[,] IDArray)>();
+            grids.Add((v, id));
+
+            while (true)
+            {
+                var possibleNewDemag = Demag(grids.Last().VArray, grids.Last().IDArray);
+                if (possibleNewDemag != null)
+                {
+                    grids.Add(possibleNewDemag.Value);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+
+
+            for (int i = grids.Count - 1; -1 < i; i--)
+            {
+                double relaxationParameter = OptimalRelaxationParameter(grids[i].VArray.GetLength(0), grids[i].VArray.GetLength(1));
+
+                Serilog.Log.Information(relaxationParameter + " " + InteropClass.Solve2DFieldSingleStageCPP(grids[i].VArray, grids[i].IDArray, relaxationParameter, meanAbsChangeStop, maxTries, jacobiRB).MeanAbsChangeArray.Length);
+
+                if (i != 0)
+                {
+                    OverwriteMagnify(grids[i].VArray, grids[i].IDArray, grids[i - 1].VArray, grids[i - 1].IDArray);
+                }
+            }
+        }
+
     }
 }
